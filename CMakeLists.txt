@@ -2,5 +2,8 @@ cmake_minimum_required(VERSION 3.12)
 project(eviscerator)
 
 set(CMAKE_CXX_STANDARD 11)
-
-add_executable(eviscerator main.cpp)
+find_package(Threads)
+find_package(Boost COMPONENTS timer regex)
+add_executable(eviscerator main.cpp cxxopts.hpp modules/existential.h TestResults.h utilities/Ellipsis.h utilities/functions.cpp)
+target_link_libraries (eviscerator ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+target_include_directories(eviscerator PUBLIC ${Boost_INCLUDE_DIRS})
