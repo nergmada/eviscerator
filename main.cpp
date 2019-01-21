@@ -1,13 +1,14 @@
 #include <iostream>
 #include <string>
 #include <boost/regex.hpp>
-
+#include <boost/filesystem.hpp>
 
 #include "cxxopts.hpp"
 
 #include "modules/existential.h"
 #include "TestResults.h"
 
+namespace bfs = boost::filesystem;
 namespace bp = boost::process;
 
 bool checkCommandStringIsValid(std::string command) {
@@ -39,15 +40,24 @@ std::pair<bool, std::pair<std::string, std::string>> getParameters(int argc, cha
 }
 
 int main(int argc, char * argv[]) {
+    TestResults evisceratorResults(bfs::path(argv[0]).remove_filename());
     auto cmdResult = getParameters(argc, argv);
+
     if (!cmdResult.first) {
         return 1;
     }
+
     std::string planner = cmdResult.second.first;
     std::string command = cmdResult.second.second;
 
-    TestResults evisceratorResults;
+    std::cout << "---[[Testing basic features]]---";
+
     if (!existential::testPlannerExistence(planner, evisceratorResults))
         return 1;
+    existential::testHowPlannerHandlesNonExistentDomainAndProblem(planner, command, evisceratorResults);
     existential::testHowPlannerHandlesNonExistentProblem(planner, command, evisceratorResults);
+    existential::testHowPlannerHandlesNonExistentDomain(planner, command, evisceratorResults);
+
+    std::cout << std::endl << "---[[Testing Support for PDDL1.2]]---" << std::endl << std::endl;
+
 }

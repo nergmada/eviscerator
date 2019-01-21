@@ -15,36 +15,35 @@ private:
     double change;
     double previousTime = 0;
     int state = 0;
+    std::string message;
 public:
-    Ellipsis(double changeTime) {
-        change = changeTime;
-        std::cout << "   ";
-        std::cout.flush();
+    explicit Ellipsis(double changeTime, std::string m = "Running") : change(changeTime), message(std::move(m)) {
+        std::cout << std::endl << std::unitbuf << "   ";// << std::flush;
     }
     void updateEllipsis(double newTime) {
         if (ellipsisEnded)
             return;
         if (newTime - previousTime < change)
             return;
-        ++state;
+        state = (state + 1) % 3;
         previousTime = newTime;
-        std::cout << "\b\b\b   \b\b\b";
-        switch (state % 3) {
+        std::cout << "\r" << message;
+        switch (state) {
             case 0:
                 std::cout << ".  ";
-                std::cout.flush();
+                break;
             case 1:
                 std::cout << ".. ";
-                std::cout.flush();
+                break;
             case 2:
                 std::cout << "...";
-                std::cout.flush();
+                break;
             default:
                 return;
         }
     }
     void endEllipsis() {
-        std::cout << "\b\b\b..." << std::endl;
+        std::cout << std::endl << std::nounitbuf;
     }
 };
 

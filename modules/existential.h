@@ -20,9 +20,8 @@ namespace bt = boost::timer;
 class existential {
 public:
     static bool testPlannerExistence(std::string planner, TestResults & results) {
-        std::cout << "Checking if planner exists";
         try {
-            Ellipsis ellipsis(1000000);
+            Ellipsis ellipsis(1000000, "Checking if planner exists");
             bp::child c(planner, bp::std_out > bp::null, bp::std_err > bp::null);
             bt::cpu_timer timer;
             timer.start();
@@ -43,11 +42,31 @@ public:
         return true;
     }
 
-    static void testHowPlannerHandlesNonExistentProblem(std::string planner, std::string command, TestResults & results) {
+    static void testHowPlannerHandlesNonExistentDomainAndProblem(std::string planner, std::string command, TestResults & results) {
         auto execution = utilities::buildExecutionString(planner, command, "not.pddl", "not.pddl");
-        std::cout << "Command: " << execution;
         try {
-            Ellipsis ellipsis(1000000);
+            Ellipsis ellipsis(1000000, "Testing how planner handles non-existent domain and problem file");
+            bp::child c(execution, bp::std_out > bp::null, bp::std_err > bp::null);
+            bt::cpu_timer timer;
+            timer.start();
+            while (c.running()){
+                ellipsis.updateEllipsis(timer.elapsed().wall);
+            }
+            ellipsis.endEllipsis();
+            timer.stop();
+            std::cout << "\t" << bt::format(timer.elapsed(), 3, "%w seconds taken") << std::endl;
+            std::cout << "Exit code when non-existent domain and problem given: " << c.exit_code() << std::endl;
+            results.NonExistentDomainProblemResult(c.exit_code());
+        } catch (const std::exception& e) {
+            std::cout << std::endl << "Critical execution error, no exit code given, proceeding..." << std::endl;
+        }
+    }
+
+    static void testHowPlannerHandlesNonExistentProblem(std::string planner, std::string command, TestResults & results) {
+        auto execution = utilities::buildExecutionString(planner, command,
+                results.getApplicationDirectory()->string() + "/pddl/existential/domain.pddl", "not.pddl");
+        try {
+            Ellipsis ellipsis(1000000, "Testing how planner handles non-existent problem file only");
             bp::child c(execution, bp::std_out > bp::null, bp::std_err > bp::null);
             bt::cpu_timer timer;
             timer.start();
@@ -58,7 +77,28 @@ public:
             timer.stop();
             std::cout << "\t" << bt::format(timer.elapsed(), 3, "%w seconds taken") << std::endl;
             std::cout << "Exit code when non-existent problem given: " << c.exit_code() << std::endl;
-            results.existentialResult(true, c.exit_code());
+            results.NonExistentProblemResult(c.exit_code());
+        } catch (const std::exception& e) {
+            std::cout << std::endl << "Critical execution error, no exit code given, proceeding..." << std::endl;
+        }
+    }
+
+    static void testHowPlannerHandlesNonExistentDomain(std::string planner, std::string command, TestResults & results) {
+        auto execution = utilities::buildExecutionString(planner, command,
+                                                         "not.pddl", results.getApplicationDirectory()->string() + "/pddl/existential/problem.pddl");
+        try {
+            Ellipsis ellipsis(1000000, "Testing how planner handles non-existent domain file only");
+            bp::child c(execution, bp::std_out > bp::null, bp::std_err > bp::null);
+            bt::cpu_timer timer;
+            timer.start();
+            while (c.running()){
+                ellipsis.updateEllipsis(timer.elapsed().wall);
+            }
+            ellipsis.endEllipsis();
+            timer.stop();
+            std::cout << "\t" << bt::format(timer.elapsed(), 3, "%w seconds taken") << std::endl;
+            std::cout << "Exit code when non-existent domain given: " << c.exit_code() << std::endl;
+            results.NonExistentDomainResult(c.exit_code());
         } catch (const std::exception& e) {
             std::cout << std::endl << "Critical execution error, no exit code given, proceeding..." << std::endl;
         }
