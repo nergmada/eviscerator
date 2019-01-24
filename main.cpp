@@ -5,6 +5,7 @@
 
 #include "cxxopts.hpp"
 
+#include "utilities/Executor.h"
 #include "modules/existential.h"
 #include "modules/pddl12.h"
 #include "TestResults.h"
@@ -57,29 +58,32 @@ evisceratorConfig getParameters(int argc, char * argv[]) {
 }
 
 int main(int argc, char * argv[]) {
-    TestResults evisceratorResults(bfs::path(argv[0]).remove_filename());
+    TestResults evisceratorResults;
     auto config = getParameters(argc, argv);
 
     if (!config.configFound) {
         return 1;
     }
 
+    Executor executor(config.planner, config.command, bfs::path(argv[0]).remove_filename());
+
     std::cout << "---[[Testing basic features]]---";
 
-    if (!existential::testPlannerExistence(config.planner, evisceratorResults)) {
+    if (!existential::testPlannerExistence(executor, evisceratorResults)) {
         std::cout << "ERR CODE 2: Could not find planner on path provided - Terminating Evisceration";
         return 2;
     }
-    existential::testHowPlannerHandlesNonExistentDomainAndProblem(config.planner, config.command, evisceratorResults);
-    existential::testHowPlannerHandlesNonExistentProblem(config.planner, config.command, evisceratorResults);
-    existential::testHowPlannerHandlesNonExistentDomain(config.planner, config.command, evisceratorResults);
+    existential::testHowPlannerHandlesNonExistentDomainAndProblem(executor, evisceratorResults);
+    existential::testHowPlannerHandlesNonExistentProblem(executor, evisceratorResults);
+    existential::testHowPlannerHandlesNonExistentDomain(executor, evisceratorResults);
 
     std::cout << std::endl << "---[[Testing Support for PDDL1.2]]---" << std::endl << std::endl;
 
-    if (!pddl12::testStrips(config.planner, config.command, config.planRegex, evisceratorResults)) {
+    if (!pddl12::testStrips(executor, config.planRegex, evisceratorResults)) {
         std::cout << "ERR CODE 3: Could not successfully find plan in output - Terminating Evisceration";
         return 3;
     }
 
-    pddl12::testTyping(config.planner, config.command, config.planRegex, evisceratorResults);
+    pddl12::testTyping(executor, config.planRegex, evisceratorResults);
+    pddl12::testDisjunctivePreconditions(executor, config.planRegex, evisceratorResults);
 }

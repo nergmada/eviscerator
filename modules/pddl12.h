@@ -9,12 +9,14 @@
 #include <string>
 
 #include "../TestResults.h"
+#include "../utilities/Executor.h"
 
 
 class pddl12 {
 public:
-    static bool testStrips(std::string & planner, std::string & command, std::string & planRegex, TestResults & results);
-    static void testTyping(std::string & planner, std::string & command, std::string & planRegex, TestResults & results);
+    static bool testStrips(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testTyping(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testDisjunctivePreconditions(Executor & executor, std::string & planRegex, TestResults & results);
 };
 
 

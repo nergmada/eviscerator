@@ -2,7 +2,7 @@
     (problem simpleproblem)
     (:domain simple)
     (:objects
-        obj1 obj2 obj3
+        obj1
     )
     (:init
         (object-is-ready obj1)

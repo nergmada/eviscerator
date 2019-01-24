@@ -14,7 +14,8 @@ enum test {
     noProblem,
     noDomain,
     pdd12Strips,
-    pddl12Typing
+    pddl12Typing,
+    pddl12DisjunctivePreconditions
 };
 
 class TestResults {
@@ -27,11 +28,7 @@ private:
     std::map<test, int> exitCodes;
 
 public:
-    TestResults(boost::filesystem::path p) : appDirectory(std::move(p)) {};
-
-    boost::filesystem::path* getApplicationDirectory() {
-        return & appDirectory;
-    }
+    TestResults() {};
 
     void addTestResult(test t, int exitCode) {
         if (!conducted[t]) {

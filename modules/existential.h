@@ -5,6 +5,7 @@
 #include <string>
 
 #include "../TestResults.h"
+#include "../utilities/Executor.h"
 
 #ifndef EVISCERATOR_EXISTENTIAL_H
 #define EVISCERATOR_EXISTENTIAL_H
@@ -12,13 +13,13 @@
 
 class existential {
 public:
-    static bool testPlannerExistence(std::string planner, TestResults & results);
+    static bool testPlannerExistence(Executor & executor, TestResults & results);
 
-    static void testHowPlannerHandlesNonExistentDomainAndProblem(std::string planner, std::string command, TestResults & results);
+    static void testHowPlannerHandlesNonExistentDomainAndProblem(Executor & executor, TestResults & results);
 
-    static void testHowPlannerHandlesNonExistentProblem(std::string planner, std::string command, TestResults & results);
+    static void testHowPlannerHandlesNonExistentProblem(Executor & executor, TestResults & results);
 
-    static void testHowPlannerHandlesNonExistentDomain(std::string planner, std::string command, TestResults & results);
+    static void testHowPlannerHandlesNonExistentDomain(Executor & executor, TestResults & results);
 };
 
 
