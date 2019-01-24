@@ -13,7 +13,8 @@ enum test {
     noDomainProblem,
     noProblem,
     noDomain,
-    pdd12Strips
+    pdd12Strips,
+    pddl12Typing
 };
 
 class TestResults {

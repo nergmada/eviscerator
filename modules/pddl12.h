@@ -13,7 +13,8 @@
 
 class pddl12 {
 public:
-    static void testStrips(std::string & planner, std::string & command, TestResults & results);
+    static bool testStrips(std::string & planner, std::string & command, std::string & planRegex, TestResults & results);
+    static void testTyping(std::string & planner, std::string & command, std::string & planRegex, TestResults & results);
 };
 
 

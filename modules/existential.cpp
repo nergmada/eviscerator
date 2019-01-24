@@ -26,7 +26,7 @@ bool existential::testPlannerExistence(std::string planner, TestResults & result
         }
         ellipsis.endEllipsis();
         timer.stop();
-        std::cout << "Planner exists" << std::endl;
+        std::cout << "PASSED: Planner exists" << std::endl;
         std::cout << "\t" << bt::format(timer.elapsed(), 3, "%w seconds taken") << std::endl;
         std::cout << "Exit code when no problem given: " << c.exit_code() << std::endl;
         results.addTestResult(test::plannerExists, c.exit_code());

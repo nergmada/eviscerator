@@ -6,8 +6,8 @@
 
 #include <iostream>
 
-explicit Ellipsis::Ellipsis(double changeTime, std::string m = "Running") : change(changeTime), message(std::move(m)) {
-    std::cout << std::endl << std::unitbuf << "   ";// << std::flush;
+Ellipsis::Ellipsis(double changeTime, std::string m) : change(changeTime), message(std::move(m)) {
+    std::cout << "\n" << message << "   " << std::flush;
 }
 
 void Ellipsis::updateEllipsis(double newTime) {
@@ -31,8 +31,9 @@ void Ellipsis::updateEllipsis(double newTime) {
         default:
             return;
     }
+    std::cout << std::flush;
 }
 
 void Ellipsis::endEllipsis() {
-    std::cout << std::endl << std::nounitbuf;
+    std::cout << std::endl;
 }

@@ -16,7 +16,7 @@ private:
     int state = 0;
     std::string message;
 public:
-    explicit Ellipsis(double changeTime, std::string m = "Running") : change(changeTime), message(std::move(m));
+    explicit Ellipsis(double changeTime, std::string m = "Running");
     void updateEllipsis(double newTime);
     void endEllipsis();
 };

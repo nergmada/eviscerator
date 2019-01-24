@@ -5,7 +5,7 @@
         (object-is-ready ?a)
         (task-complete ?a)
     )
-    (:action a1b2c3
+    (:action action1
         :parameters (?obj)
         :precondition (and 
             (object-is-ready ?obj)

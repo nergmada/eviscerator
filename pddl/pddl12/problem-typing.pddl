@@ -2,12 +2,13 @@
     (problem simpleproblem)
     (:domain simple)
     (:objects
-        obj1 obj2 obj3
+        obj1 - alpha
+        obj2 - beta
     )
     (:init
         (object-is-ready obj1)
     )
     (:goal (and
-        (task-complete obj1)
+        (task-complete obj2)
     ))
 )
