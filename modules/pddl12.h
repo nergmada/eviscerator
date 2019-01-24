@@ -17,6 +17,25 @@ public:
     static bool testStrips(Executor & executor, std::string & planRegex, TestResults & results);
     static void testTyping(Executor & executor, std::string & planRegex, TestResults & results);
     static void testDisjunctivePreconditions(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testEquality(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testExistentialPreconditions(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testUniversalPreconditions(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testQuantifiedPreconditions(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testConditionalEffects(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testActionExpansions(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testForeachExpansions(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testDAGExpansions(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testDomainAxioms(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testSubgoalsThroughAxioms(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testSafetyConstraints(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testExpressionEvaluation(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testFluents(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testOpenWorld(Executor & executor, std::string & planRegex, TestResults & results);
+    static void testTrueNegation(Executor & executor, std::string & planRegex, TestResults & results);
+
+    static void checkADLSupport(TestResults & results);
+    static void checkUCPOPSupport(TestResults & results);
+
 };
 
 

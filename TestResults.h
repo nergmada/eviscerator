@@ -15,7 +15,9 @@ enum test {
     noDomain,
     pdd12Strips,
     pddl12Typing,
-    pddl12DisjunctivePreconditions
+    pddl12DisjunctivePreconditions,
+    pddl12Equality,
+    pddl12ExistentialPreconditions
 };
 
 class TestResults {

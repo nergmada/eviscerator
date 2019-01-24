@@ -86,4 +86,6 @@ int main(int argc, char * argv[]) {
 
     pddl12::testTyping(executor, config.planRegex, evisceratorResults);
     pddl12::testDisjunctivePreconditions(executor, config.planRegex, evisceratorResults);
+    pddl12::testEquality(executor, config.planRegex, evisceratorResults);
+    pddl12::testExistentialPreconditions(executor, config.planRegex, evisceratorResults);
 }
