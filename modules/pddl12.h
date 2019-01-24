@@ -6,8 +6,14 @@
 #define EVISCERATOR_PDDL12_H
 
 
-class pddl12 {
+#include <string>
 
+#include "../TestResults.h"
+
+
+class pddl12 {
+public:
+    static void testStrips(std::string & planner, std::string & command, TestResults & results);
 };
 
 

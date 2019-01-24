@@ -4,59 +4,46 @@
 
 #ifndef EVISCERATOR_TESTRESULTS_H
 #define EVISCERATOR_TESTRESULTS_H
+
+#include <map>
 #include <boost/filesystem.hpp>
 
-namespace bfs = boost::filesystem;
+enum test {
+    plannerExists,
+    noDomainProblem,
+    noProblem,
+    noDomain,
+    pdd12Strips
+};
+
 class TestResults {
 private:
-    bfs::path appDirectory;
+    boost::filesystem::path appDirectory;
 
-    bool testedExistence = false;
     bool plannerExists;
-    int exitCodeWhenNoProblemProvided;
 
-    bool testedPlannerHandlingNonExistentDomainProblem = false;
-    int exitCodeWhenNonExistentDomainProblemProvided;
+    std::map<test, bool> conducted;
+    std::map<test, int> exitCodes;
 
-    bool testedPlannerHandlingNonExistentProblem = false;
-    int exitCodeWhenNonExistentProblemProvided;
-
-    bool testedPlannerHandlingNonExistentDomain = false;
-    int exitCodeWhenNonExistentDomainProvided;
 public:
-    TestResults(bfs::path p) : appDirectory(std::move(p)) {};
+    TestResults(boost::filesystem::path p) : appDirectory(std::move(p)) {};
 
-    bfs::path* getApplicationDirectory() {
+    boost::filesystem::path* getApplicationDirectory() {
         return & appDirectory;
     }
 
-    void existentialResult(bool plannerFound, int exitCode) {
-        if (!testedExistence) {
-            testedExistence = true;
-            plannerExists = plannerFound;
-            exitCodeWhenNoProblemProvided = exitCode;
+    void addTestResult(test t, int exitCode) {
+        if (!conducted[t]) {
+            conducted[t] = true;
+            exitCodes[t] = exitCode;
+            if (t == test::plannerExists) {
+                plannerExists = true;
+            }
         }
     }
 
-    void NonExistentDomainProblemResult(int exitCode) {
-        if (!testedPlannerHandlingNonExistentDomainProblem) {
-            testedPlannerHandlingNonExistentDomainProblem = true;
-            exitCodeWhenNonExistentDomainProblemProvided = exitCode;
-        }
-    }
-
-    void NonExistentProblemResult(int exitCode) {
-        if (!testedPlannerHandlingNonExistentProblem) {
-            testedPlannerHandlingNonExistentProblem = true;
-            exitCodeWhenNonExistentProblemProvided = exitCode;
-        }
-    }
-
-    void NonExistentDomainResult(int exitCode) {
-        if (!testedPlannerHandlingNonExistentDomain) {
-            testedPlannerHandlingNonExistentDomain = true;
-            exitCodeWhenNonExistentDomainProvided = exitCode;
-        }
+    std::pair<bool, int> getTestResult(test t) {
+        return {conducted[t], exitCodes[t]};
     }
 };
 

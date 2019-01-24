@@ -6,6 +6,7 @@
 #include "cxxopts.hpp"
 
 #include "modules/existential.h"
+#include "modules/pddl12.h"
 #include "TestResults.h"
 
 namespace bfs = boost::filesystem;
@@ -22,7 +23,7 @@ std::pair<bool, std::pair<std::string, std::string>> getParameters(int argc, cha
     cmd.add_options()
             ("p,planner", "path to the planner to test", cxxopts::value<std::string>())
             ("c,command", "The command to execute in order to use the planner", cxxopts::value<std::string>()->default_value("[DOMAIN] [PROBLEM]"))
-            ("o,output", "A regular expression defining how the plan output is given");
+            ("o,output", "A regular expression defining how the plan output is given", cxxopts::value<std::string>()->default_value("\\((\\w\\d){3}\\s((\\d\\w)*\\s*)*\\)"));
     cmd.parse_positional({"planner", "command"});
     auto result = cmd.parse(argc, argv);
     if (result.count("planner") > 0) {
@@ -59,5 +60,5 @@ int main(int argc, char * argv[]) {
     existential::testHowPlannerHandlesNonExistentDomain(planner, command, evisceratorResults);
 
     std::cout << std::endl << "---[[Testing Support for PDDL1.2]]---" << std::endl << std::endl;
-
+    pddl12::testStrips(planner, command, evisceratorResults);
 }
