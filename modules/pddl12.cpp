@@ -14,13 +14,7 @@
 namespace bp = boost::process;
 namespace bt = boost::timer;
 
-std::string buildDomainName(const std::string & feature) {
-    return "/pddl/pddl12/domain-" + feature + ".pddl";
-}
 
-std::string buildProblemName(const std::string & feature) {
-    return "/pddl/pddl12/problem-" + feature + ".pddl";
-}
 
 void pddl12::conductTest(std::string feature, std::string stylisedName, TestResults::test t, TestResults & results, int planSize) {
     bp::ipstream out;

@@ -9,6 +9,7 @@
 #include "modules/existential.h"
 #include "modules/pddl12.h"
 #include "TestResults.h"
+#include "modules/pddl21.h"
 
 namespace bfs = boost::filesystem;
 
@@ -102,4 +103,13 @@ int main(int argc, char * argv[]) {
     pddl12Tester.checkUCPOPSupport(evisceratorResults);
 
     std::cout << std::endl << std::endl << "---[[Testing Support for PDDL2.1]]---" << std::endl << std::endl;
+
+    pddl21 pddl21Tester(executor, config.planRegex);
+
+    pddl21Tester.testNumericFluents(evisceratorResults);
+    pddl21Tester.testDurativeActions(evisceratorResults);
+    pddl21Tester.testDurativeInequalities(evisceratorResults);
+    pddl21Tester.testDurativeInequalitiesWithoutRequirement(evisceratorResults);
+    pddl21Tester.testContinuousEffects(evisceratorResults);
+    pddl21Tester.testNegativePreconditions(evisceratorResults);
 }

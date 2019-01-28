@@ -14,13 +14,6 @@
 namespace bp = boost::process;
 namespace bt = boost::timer;
 
-std::string buildDomainName(const std::string & feature) {
-    return "/pddl/pddl21/domain-" + feature + ".pddl";
-}
-
-std::string buildProblemName(const std::string & feature) {
-    return "/pddl/pddl21/problem-" + feature + ".pddl";
-}
 
 void pddl21::conductTest(std::string feature, std::string stylisedName, TestResults::test t, TestResults & results, int planSize) {
     bp::ipstream out;
@@ -47,5 +40,29 @@ void pddl21::conductTest(std::string feature, std::string stylisedName, TestResu
             std::cout << "Command: " << executor.generateCommand(buildDomainName(feature), buildProblemName(feature)) << std::endl;
         }
     }
+}
+
+void pddl21::testNumericFluents(TestResults &results) {
+    conductTest("numeric-fluents", "Numeric Fluents", TestResults::pddl21NumericFluents, results, 1);
+}
+
+void pddl21::testDurativeActions(TestResults &results) {
+    conductTest("durative-actions", "Durative Actions", TestResults::pddl21DurativeActions, results, 1);
+}
+
+void pddl21::testDurativeInequalities(TestResults &results) {
+    conductTest("durative-inequalities", "Durative Inequalities", TestResults::pddl21DurativeInequalities, results, 1);
+}
+
+void pddl21::testContinuousEffects(TestResults &results) {
+    conductTest("continuous-effects", "Continuous Effects", TestResults::pddl21ContinuousEffects, results, 1);
+}
+
+void pddl21::testNegativePreconditions(TestResults &results) {
+    conductTest("negative-preconditions", "Negative Preconditions", TestResults::pddl21NegativePreconditions, results, 1);
+}
+
+void pddl21::testDurativeInequalitiesWithoutRequirement(TestResults &results) {
+    conductTest("durative-inequalities-wr", "Durative Inequalities Without Requirement", TestResults::pddl21DurativeInequalitiesWithoutRequirement, results, 1);
 }
 

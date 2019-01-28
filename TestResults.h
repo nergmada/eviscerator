@@ -30,7 +30,13 @@ public:
         pddl12OpenWorld,
         pddl12QuantifiedPreconditions,
         pddl12ADL,
-        pddl12UCPOP
+        pddl12UCPOP,
+        pddl21NumericFluents,
+        pddl21DurativeActions,
+        pddl21DurativeInequalities,
+        pddl21DurativeInequalitiesWithoutRequirement,
+        pddl21ContinuousEffects,
+        pddl21NegativePreconditions
     };
 
 private:
