@@ -17,7 +17,7 @@ private:
     void conductTest(std::string feature, std::string stylisedName, TestResults::test t, TestResults & results, int planSize);
 public:
     pddl21(Executor & e, std::string & pr) : executor(e), planRegex(pr) {};
-    
+
 };
 
 
