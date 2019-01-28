@@ -13,14 +13,16 @@
 
 
 class pddl12 {
+private:
+    Executor & executor;
 public:
+    explicit pddl12(Executor & e) : executor(e) {};
     static bool testStrips(Executor & executor, std::string & planRegex, TestResults & results);
     static void testTyping(Executor & executor, std::string & planRegex, TestResults & results);
     static void testDisjunctivePreconditions(Executor & executor, std::string & planRegex, TestResults & results);
     static void testEquality(Executor & executor, std::string & planRegex, TestResults & results);
     static void testExistentialPreconditions(Executor & executor, std::string & planRegex, TestResults & results);
     static void testUniversalPreconditions(Executor & executor, std::string & planRegex, TestResults & results);
-    static void testQuantifiedPreconditions(Executor & executor, std::string & planRegex, TestResults & results);
     static void testConditionalEffects(Executor & executor, std::string & planRegex, TestResults & results);
     static void testActionExpansions(Executor & executor, std::string & planRegex, TestResults & results);
     static void testForeachExpansions(Executor & executor, std::string & planRegex, TestResults & results);
@@ -33,6 +35,7 @@ public:
     static void testOpenWorld(Executor & executor, std::string & planRegex, TestResults & results);
     static void testTrueNegation(Executor & executor, std::string & planRegex, TestResults & results);
 
+    static void checkQuantifiedPreconditionsSupport(TestResults & results);
     static void checkADLSupport(TestResults & results);
     static void checkUCPOPSupport(TestResults & results);
 

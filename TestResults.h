@@ -17,7 +17,9 @@ enum test {
     pddl12Typing,
     pddl12DisjunctivePreconditions,
     pddl12Equality,
-    pddl12ExistentialPreconditions
+    pddl12ExistentialPreconditions,
+    pddl12UniversalPreconditions,
+    pddl12ConditionalEffects
 };
 
 class TestResults {

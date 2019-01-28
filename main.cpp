@@ -88,4 +88,6 @@ int main(int argc, char * argv[]) {
     pddl12::testDisjunctivePreconditions(executor, config.planRegex, evisceratorResults);
     pddl12::testEquality(executor, config.planRegex, evisceratorResults);
     pddl12::testExistentialPreconditions(executor, config.planRegex, evisceratorResults);
+    pddl12::testUniversalPreconditions(executor, config.planRegex, evisceratorResults);
+    pddl12::testConditionalEffects(executor, config.planRegex, evisceratorResults);
 }
