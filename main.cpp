@@ -10,6 +10,7 @@
 #include "modules/pddl12.h"
 #include "TestResults.h"
 #include "modules/pddl21.h"
+#include "modules/pddl22.h"
 
 namespace bfs = boost::filesystem;
 
@@ -112,4 +113,11 @@ int main(int argc, char * argv[]) {
     pddl21Tester.testDurativeInequalitiesWithoutRequirement(evisceratorResults);
     pddl21Tester.testContinuousEffects(evisceratorResults);
     pddl21Tester.testNegativePreconditions(evisceratorResults);
+
+    std::cout << std::endl << std::endl << "---[[Testing Support for PDDL2.2]]---" << std::endl << std::endl;
+
+    pddl22 pddl22Tester(executor, config.planRegex);
+
+    pddl22Tester.testDerivedPredicates(evisceratorResults);
+    pddl22Tester.testTimedInitialLiterals(evisceratorResults);
 }

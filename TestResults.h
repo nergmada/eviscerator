@@ -36,7 +36,9 @@ public:
         pddl21DurativeInequalities,
         pddl21DurativeInequalitiesWithoutRequirement,
         pddl21ContinuousEffects,
-        pddl21NegativePreconditions
+        pddl21NegativePreconditions,
+        pddl22DerivedPredicates,
+        pddl22TimedInitialLiterals
     };
 
 private:
