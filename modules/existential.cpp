@@ -24,7 +24,7 @@ bool existential::testPlannerExistence(Executor & executor, TestResults & result
     }
     std::cout << "PASSED: Planner exists" << std::endl;
     std::cout << "Exit code when no problem given: " << execResult << std::endl;
-    results.addTestResult(test::plannerExists, execResult);
+    results.addTestResult(TestResults::plannerExists, execResult);
 
     return true;
 }
@@ -36,7 +36,7 @@ void existential::testHowPlannerHandlesNonExistentDomainAndProblem(Executor & ex
         return;
     }
     std::cout << "PASSED: Exit code when non-existent domain and problem given: " << execResult << std::endl;
-    results.addTestResult(test::noDomainProblem, execResult);
+    results.addTestResult(TestResults::noDomainProblem, execResult);
 
 }
 
@@ -47,7 +47,7 @@ void existential::testHowPlannerHandlesNonExistentProblem(Executor & executor, T
         return;
     }
     std::cout << "PASSED: Exit code when non-existent problem given: " << execResult << std::endl;
-    results.addTestResult(test::noProblem, execResult);
+    results.addTestResult(TestResults::noProblem, execResult);
 }
 
 void existential::testHowPlannerHandlesNonExistentDomain(Executor & executor, TestResults & results) {
@@ -57,5 +57,5 @@ void existential::testHowPlannerHandlesNonExistentDomain(Executor & executor, Te
         return;
     }
     std::cout << "PASSED: Exit code when non-existent domain given: " << execResult << std::endl;
-    results.addTestResult(test::noDomain, execResult);
+    results.addTestResult(TestResults::noDomain, execResult);
 }

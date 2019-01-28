@@ -8,25 +8,35 @@
 #include <map>
 #include <boost/filesystem.hpp>
 
-enum test {
-    plannerExists,
-    noDomainProblem,
-    noProblem,
-    noDomain,
-    pdd12Strips,
-    pddl12Typing,
-    pddl12DisjunctivePreconditions,
-    pddl12Equality,
-    pddl12ExistentialPreconditions,
-    pddl12UniversalPreconditions,
-    pddl12ConditionalEffects
-};
 
 class TestResults {
+public:
+    enum test {
+        plannerExists,
+        noDomainProblem,
+        noProblem,
+        noDomain,
+        pddl12Strips,
+        pddl12Typing,
+        pddl12DisjunctivePreconditions,
+        pddl12Equality,
+        pddl12ExistentialPreconditions,
+        pddl12UniversalPreconditions,
+        pddl12ConditionalEffects,
+        pddl12DomainAxioms,
+        pddl12SubgoalsThroughAxioms,
+        pddl12SafetyConstraints,
+        pddl12ExpressionEvaluation,
+        pddl12OpenWorld,
+        pddl12QuantifiedPreconditions,
+        pddl12ADL,
+        pddl12UCPOP
+    };
+
 private:
     boost::filesystem::path appDirectory;
 
-    bool plannerExists;
+    bool doesPlannerExists;
 
     std::map<test, bool> conducted;
     std::map<test, int> exitCodes;
@@ -34,12 +44,13 @@ private:
 public:
     TestResults() {};
 
+
     void addTestResult(test t, int exitCode) {
         if (!conducted[t]) {
             conducted[t] = true;
             exitCodes[t] = exitCode;
             if (t == test::plannerExists) {
-                plannerExists = true;
+                doesPlannerExists = true;
             }
         }
     }

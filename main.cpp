@@ -79,15 +79,27 @@ int main(int argc, char * argv[]) {
 
     std::cout << std::endl << "---[[Testing Support for PDDL1.2]]---" << std::endl << std::endl;
 
-    if (!pddl12::testStrips(executor, config.planRegex, evisceratorResults)) {
+    pddl12 pddl12Tester(executor, config.planRegex);
+
+    if (!pddl12Tester.testStrips(evisceratorResults)) {
         std::cout << "ERR CODE 3: Could not successfully find plan in output - Terminating Evisceration";
         return 3;
     }
 
-    pddl12::testTyping(executor, config.planRegex, evisceratorResults);
-    pddl12::testDisjunctivePreconditions(executor, config.planRegex, evisceratorResults);
-    pddl12::testEquality(executor, config.planRegex, evisceratorResults);
-    pddl12::testExistentialPreconditions(executor, config.planRegex, evisceratorResults);
-    pddl12::testUniversalPreconditions(executor, config.planRegex, evisceratorResults);
-    pddl12::testConditionalEffects(executor, config.planRegex, evisceratorResults);
+    pddl12Tester.testTyping(evisceratorResults);
+    pddl12Tester.testDisjunctivePreconditions(evisceratorResults);
+    pddl12Tester.testEquality(evisceratorResults);
+    pddl12Tester.testExistentialPreconditions(evisceratorResults);
+    pddl12Tester.testUniversalPreconditions(evisceratorResults);
+    pddl12Tester.testConditionalEffects(evisceratorResults);
+    pddl12Tester.testDomainAxioms(evisceratorResults);
+    pddl12Tester.testSubgoalsThroughAxioms(evisceratorResults);
+    pddl12Tester.testSafetyConstraints(evisceratorResults);
+    pddl12Tester.testExpressionEvaluation(evisceratorResults);
+    pddl12Tester.testOpenWorld(evisceratorResults);
+    pddl12Tester.checkQuantifiedPreconditionsSupport(evisceratorResults);
+    pddl12Tester.checkADLSupport(evisceratorResults);
+    pddl12Tester.checkUCPOPSupport(evisceratorResults);
+
+    std::cout << std::endl << std::endl << "---[[Testing Support for PDDL2.1]]---" << std::endl << std::endl;
 }
