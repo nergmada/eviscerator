@@ -40,7 +40,8 @@ public:
         pddl22DerivedPredicates,
         pddl22TimedInitialLiterals,
         pddl3Constraints,
-        pddl3Preferences
+        pddl3Preferences,
+        pddlplusTime
     };
 
 private:

@@ -12,6 +12,7 @@
 #include "modules/pddl21.h"
 #include "modules/pddl22.h"
 #include "modules/pddl3.h"
+#include "modules/pddlplus.h"
 
 namespace bfs = boost::filesystem;
 
@@ -128,4 +129,10 @@ int main(int argc, char * argv[]) {
 
     pddl3Tester.testConstraints(evisceratorResults);
     pddl3Tester.testPreferences(evisceratorResults);
+
+    std::cout << std::endl << std::endl << "---[[Testing Support for PDDL Plus]]---" << std::endl << std::endl;
+
+    pddlplus pddlplusTester(executor, config.planRegex);
+
+    pddlplusTester.testTime(evisceratorResults);
 }
