@@ -5,27 +5,25 @@
 #ifndef EVISCERATOR_PDDLPLUS_H
 #define EVISCERATOR_PDDLPLUS_H
 
-#include <string>
 
-#include "../TestResults.h"
-#include "../utilities/Executor.h"
+#include "TestSuite.h"
 
-class pddlplus {
+class pddlplus : TestSuite {
 private:
-    Executor & executor;
-    std::string & planRegex;
-    void conductTest(std::string feature, std::string stylisedName, TestResults::test t, TestResults & results, int planSize);
-    std::string buildDomainName(const std::string & feature) {
+    std::string buildDomainName(const std::string & feature) override {
         return "/pddl/pddlplus/domain-" + feature + ".pddl";
     }
 
-    std::string buildProblemName(const std::string & feature) {
+    std::string buildProblemName(const std::string & feature) override {
         return "/pddl/pddlplus/problem-" + feature + ".pddl";
     }
-public:
-    pddlplus(Executor & e, std::string & pr) : executor(e), planRegex(pr) {};
-
     void testTime(TestResults & results);
+public:
+    pddlplus(Executor & e, std::string & pr) : TestSuite(e, pr) {};
+
+    bool runCritical(TestResults &results) override;
+
+    void runNonCritical(TestResults &results) override;
 };
 
 

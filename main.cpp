@@ -85,54 +85,34 @@ int main(int argc, char * argv[]) {
 
     pddl12 pddl12Tester(executor, config.planRegex);
 
-    if (!pddl12Tester.testStrips(evisceratorResults)) {
+    if (!pddl12Tester.runCritical(evisceratorResults)) {
         std::cout << "ERR CODE 3: Could not successfully find plan in output - Terminating Evisceration";
         return 3;
     }
 
-    pddl12Tester.testTyping(evisceratorResults);
-    pddl12Tester.testDisjunctivePreconditions(evisceratorResults);
-    pddl12Tester.testEquality(evisceratorResults);
-    pddl12Tester.testExistentialPreconditions(evisceratorResults);
-    pddl12Tester.testUniversalPreconditions(evisceratorResults);
-    pddl12Tester.testConditionalEffects(evisceratorResults);
-    pddl12Tester.testDomainAxioms(evisceratorResults);
-    pddl12Tester.testSubgoalsThroughAxioms(evisceratorResults);
-    pddl12Tester.testSafetyConstraints(evisceratorResults);
-    pddl12Tester.testExpressionEvaluation(evisceratorResults);
-    pddl12Tester.testOpenWorld(evisceratorResults);
-    pddl12Tester.checkQuantifiedPreconditionsSupport(evisceratorResults);
-    pddl12Tester.checkADLSupport(evisceratorResults);
-    pddl12Tester.checkUCPOPSupport(evisceratorResults);
+    pddl12Tester.runNonCritical(evisceratorResults);
 
     std::cout << std::endl << std::endl << "---[[Testing Support for PDDL2.1]]---" << std::endl << std::endl;
 
     pddl21 pddl21Tester(executor, config.planRegex);
 
-    pddl21Tester.testNumericFluents(evisceratorResults);
-    pddl21Tester.testDurativeActions(evisceratorResults);
-    pddl21Tester.testDurativeInequalities(evisceratorResults);
-    pddl21Tester.testDurativeInequalitiesWithoutRequirement(evisceratorResults);
-    pddl21Tester.testContinuousEffects(evisceratorResults);
-    pddl21Tester.testNegativePreconditions(evisceratorResults);
+    pddl21Tester.runNonCritical(evisceratorResults);
 
     std::cout << std::endl << std::endl << "---[[Testing Support for PDDL2.2]]---" << std::endl << std::endl;
 
     pddl22 pddl22Tester(executor, config.planRegex);
 
-    pddl22Tester.testDerivedPredicates(evisceratorResults);
-    pddl22Tester.testTimedInitialLiterals(evisceratorResults);
+    pddl22Tester.runNonCritical(evisceratorResults);
 
     std::cout << std::endl << std::endl << "---[[Testing Support for PDDL3]]---" << std::endl << std::endl;
 
     pddl3 pddl3Tester(executor, config.planRegex);
 
-    pddl3Tester.testConstraints(evisceratorResults);
-    pddl3Tester.testPreferences(evisceratorResults);
+    pddl3Tester.runNonCritical(evisceratorResults);
 
     std::cout << std::endl << std::endl << "---[[Testing Support for PDDL Plus]]---" << std::endl << std::endl;
 
     pddlplus pddlplusTester(executor, config.planRegex);
 
-    pddlplusTester.testTime(evisceratorResults);
+    pddlplusTester.runNonCritical(evisceratorResults);
 }

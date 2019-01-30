@@ -8,24 +8,19 @@
 
 #include <string>
 
-#include "../TestResults.h"
-#include "../utilities/Executor.h"
+#include "TestSuite.h"
 
 
-class pddl12 {
+class pddl12 : TestSuite {
 private:
-    Executor & executor;
-    std::string & planRegex;
-    void conductTest(std::string feature, std::string stylisedName, TestResults::test t, TestResults & results, int planSize);
-    std::string buildDomainName(const std::string & feature) {
+    std::string buildDomainName(const std::string & feature) override {
         return "/pddl/pddl12/domain-" + feature + ".pddl";
     }
 
-    std::string buildProblemName(const std::string & feature) {
+    std::string buildProblemName(const std::string & feature) override {
         return "/pddl/pddl12/problem-" + feature + ".pddl";
     }
-public:
-    pddl12(Executor & e, std::string & pr) : executor(e), planRegex(pr) {};
+
     bool testStrips(TestResults & results);
     void testTyping(TestResults & results);
     void testDisjunctivePreconditions(TestResults & results);
@@ -47,6 +42,11 @@ public:
     void checkQuantifiedPreconditionsSupport(TestResults & results);
     void checkADLSupport(TestResults & results);
     void checkUCPOPSupport(TestResults & results);
+public:
+    pddl12(Executor & e, std::string & pr) : TestSuite(e, pr) { };
+    bool runCritical(TestResults &results) override;
+    void runNonCritical(TestResults &results) override;
+
 
 };
 
