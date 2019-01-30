@@ -46,6 +46,6 @@ void pddl3::testConstraints(TestResults &results) {
 }
 
 void pddl3::testPreferences(TestResults &results) {
-    conductTest("preferences", "Preferences", TestResults::pddl3Preferences, results, 2);
+    conductTest("preferences", "Preferences", TestResults::pddl3Preferences, results, 3);
 }
 
