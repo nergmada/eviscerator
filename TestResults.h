@@ -38,7 +38,9 @@ public:
         pddl21ContinuousEffects,
         pddl21NegativePreconditions,
         pddl22DerivedPredicates,
-        pddl22TimedInitialLiterals
+        pddl22TimedInitialLiterals,
+        pddl3Constraints,
+        pddl3Preferences
     };
 
 private:

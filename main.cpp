@@ -11,6 +11,7 @@
 #include "TestResults.h"
 #include "modules/pddl21.h"
 #include "modules/pddl22.h"
+#include "modules/pddl3.h"
 
 namespace bfs = boost::filesystem;
 
@@ -120,4 +121,11 @@ int main(int argc, char * argv[]) {
 
     pddl22Tester.testDerivedPredicates(evisceratorResults);
     pddl22Tester.testTimedInitialLiterals(evisceratorResults);
+
+    std::cout << std::endl << std::endl << "---[[Testing Support for PDDL3]]---" << std::endl << std::endl;
+
+    pddl3 pddl3Tester(executor, config.planRegex);
+
+    pddl3Tester.testConstraints(evisceratorResults);
+    pddl3Tester.testPreferences(evisceratorResults);
 }

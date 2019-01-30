@@ -26,6 +26,6 @@
         )
     )
     (:derived 
-        (and (parta-task-complete ?obj) (partb-task-complete ?obj)) (task-complete ?obj)
+        (task-complete ?obj) (and (parta-task-complete ?obj) (partb-task-complete ?obj))
     )
 )
