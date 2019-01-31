@@ -41,7 +41,13 @@ public:
         pddl22TimedInitialLiterals,
         pddl3Constraints,
         pddl3Preferences,
-        pddlplusTime
+        pddlplusTime,
+        plannerDeterminstic
+    };
+    enum status {
+        passed,
+        failed,
+        maybe
     };
 
 private:
@@ -49,25 +55,40 @@ private:
 
     bool doesPlannerExists;
 
+    int passCode = -1;
+
     std::map<test, bool> conducted;
     std::map<test, int> exitCodes;
+    std::map<test, status> plannerResult;
 
 public:
     TestResults() {};
 
 
-    void addTestResult(test t, int exitCode) {
+    void addTestResult(test t, int exitCode, status s) {
         if (!conducted[t]) {
             conducted[t] = true;
             exitCodes[t] = exitCode;
+            plannerResult[t] = s;
             if (t == test::plannerExists) {
                 doesPlannerExists = true;
+            }
+            if (t == test::pddl12Strips && s == passed) {
+                passCode = exitCode;
             }
         }
     }
 
     std::pair<bool, int> getTestResult(test t) {
         return {conducted[t], exitCodes[t]};
+    }
+
+    status getIfFeatureSupported(test t) {
+        return plannerResult[t];
+    }
+
+    int getPassCode() {
+        return passCode;
     }
 };
 

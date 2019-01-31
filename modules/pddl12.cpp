@@ -86,7 +86,7 @@ void pddl12::testOpenWorld(TestResults &results) {
 }
 
 void pddl12::checkQuantifiedPreconditionsSupport(TestResults &results) {
-    int desiredCode = results.getTestResult(TestResults::pddl12Strips).second;
+    int desiredCode = results.getPassCode();
     std::cout << std::endl << "Testing super Requirement - Quantified Preconditions";
 
     bool passed = true;
@@ -130,13 +130,13 @@ void pddl12::checkQuantifiedPreconditionsSupport(TestResults &results) {
 
     if (passed) {
         std::cout << std::endl << "PASSED: Planner supports quantified preconditions (super requirement)" << std::endl << std::endl;
-        results.addTestResult(TestResults::pddl12QuantifiedPreconditions, desiredCode);
+        results.addTestResult(TestResults::pddl12QuantifiedPreconditions, desiredCode, TestResults::passed);
     } else {
         if (cannotConductFullTest) {
             std::cout << std::endl << "INCOMPLETE: Eviscerator could not confirm if Quantified Preconditions are supported because some pre-req tests have not been finished";
         } else {
             std::cout << std::endl << "FAILED: Quantified Preconditions are not supported";
-            results.addTestResult(TestResults::pddl12QuantifiedPreconditions, exitCode);
+            results.addTestResult(TestResults::pddl12QuantifiedPreconditions, exitCode, TestResults::failed);
         }
     }
 }
@@ -253,13 +253,13 @@ void pddl12::checkADLSupport(TestResults &results) {
 
     if (passed) {
         std::cout << std::endl << "PASSED: Planner supports ADL (super requirement)" << std::endl << std::endl;
-        results.addTestResult(TestResults::pddl12ADL, desiredCode);
+        results.addTestResult(TestResults::pddl12ADL, desiredCode, TestResults::passed);
     } else {
         if (cannotConductFullTest) {
             std::cout << std::endl << "INCOMPLETE: Eviscerator could not confirm if ADL is supported because some pre-req tests have not been finished";
         } else {
             std::cout << std::endl << "FAILED: ADL is not supported";
-            results.addTestResult(TestResults::pddl12ADL, exitCode);
+            results.addTestResult(TestResults::pddl12ADL, exitCode, TestResults::failed);
         }
     }
 }
@@ -324,13 +324,13 @@ void pddl12::checkUCPOPSupport(TestResults &results) {
     }
     if (passed) {
         std::cout << std::endl << "PASSED: Planner supports UCPOP (super requirement)" << std::endl << std::endl;
-        results.addTestResult(TestResults::pddl12UCPOP, desiredCode);
+        results.addTestResult(TestResults::pddl12UCPOP, desiredCode, TestResults::passed);
     } else {
         if (cannotConductFullTest) {
             std::cout << std::endl << "INCOMPLETE: Eviscerator could not confirm if UCPOP is supported because some pre-req tests have not been finished";
         } else {
             std::cout << std::endl << "FAILED: UCPOP is not supported";
-            results.addTestResult(TestResults::pddl12UCPOP, exitCode);
+            results.addTestResult(TestResults::pddl12UCPOP, exitCode, TestResults::failed);
         }
     }
 }

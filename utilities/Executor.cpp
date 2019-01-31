@@ -83,6 +83,21 @@ int Executor::execute(std::string comment, std::string domain, std::string probl
     }
 }
 
+int Executor::executeSilent(Ellipsis & e, bt::cpu_timer & timer, std::string domain, std::string problem, boost::process::ipstream & out) {
+    std::string execution = utilities::buildExecutionString(planner, command, appPath.string() + domain, appPath.string() + problem);
+    try {
+        bp::child c(execution, bp::std_out > out, bp::std_err > bp::null);
+        //TODO: check if timer stopping and starting resets timer
+        while (c.running()) {
+            e.updateEllipsis(timer.elapsed().wall);
+        }
+        return c.exit_code();
+    } catch (const std::exception& e) {
+        return -1;
+    }
+}
+
 std::string Executor::generateCommand(std::string domain, std::string problem) {
     return utilities::buildExecutionString(planner, command, appPath.string() + domain, appPath.string() + problem);
 }
+

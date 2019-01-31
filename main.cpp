@@ -13,6 +13,7 @@
 #include "modules/pddl22.h"
 #include "modules/pddl3.h"
 #include "modules/pddlplus.h"
+#include "modules/PlannerQualities.h"
 
 namespace bfs = boost::filesystem;
 
@@ -115,4 +116,10 @@ int main(int argc, char * argv[]) {
     pddlplus pddlplusTester(executor, config.planRegex);
 
     pddlplusTester.runNonCritical(evisceratorResults);
+
+    std::cout << std::endl << std::endl << "---[[Testing other qualities of the planner]]---" << std::endl << std::endl;
+
+    PlannerQualities plannerTester(executor, config.planRegex);
+
+    plannerTester.runNonCritical(evisceratorResults);
 }
