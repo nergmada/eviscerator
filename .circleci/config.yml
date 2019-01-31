@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  build-debug:
+    docker:
+    - image: lballabio/boost:latest
+    steps:
+    - checkout
+    - run: mkdir cmake-build-debug && cd cmake-build-debug
+    - run: cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ..
+    - run: cmake --build . --target eviscerator -- -j 4
+  build-release:
+    docker:
+    - image: lballabio/boost:latest
+    steps:
+    - checkout
+    - run: mkdir cmake-build-release && cd cmake-build-release
+    - run: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
+    - run: cmake --build . --target eviscerator -- -j 4
+  deploy:
+    docker:
+    - image: lballabio/boost:latest
+    steps:
+    - checkout
+    - run: mkdir cmake-build-release && cd cmake-build-release
+    - run: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
+    - run: cmake --build . --target eviscerator -- -j 4
+    - run: mkdir eviscerator-release
+    - run: cp ./eviscerator eviscerator
+    - run: cp -r ./pddl ./eviscerator/pddl
+    - run: zip -r -9 eviscerator-release.zip ./eviscerator-release/*
+    - ghr
