@@ -5,9 +5,7 @@ jobs:
     - image: lballabio/boost:latest
     steps:
     - checkout
-    - run:
-        name: Creating debug build directory
-        command: mkdir cmake-build-debug && cd cmake-build-debug
+    - run: mkdir cmake-build-debug && cd cmake-build-debug
     - run: cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ..
     - run: cmake --build . --target eviscerator -- -j 4
   build-release:
@@ -31,3 +29,12 @@ jobs:
     - run: cp -r ./pddl ./eviscerator/pddl
     - run: zip -r -9 eviscerator-release.zip ./eviscerator-release/*
     - ghr
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-debug
+  build_and_deploy:
+    jobs:
+      - build-release
+      - deploy
