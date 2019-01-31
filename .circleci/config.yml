@@ -5,7 +5,6 @@ jobs:
     - image: adamfgreen/cppbuild:latest
     steps:
     - checkout
-    - run: apt install cmake
     - run: mkdir cmake-build-debug && cd cmake-build-debug
     - run: cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ..
     - run: cmake --build . --target eviscerator -- -j 4
@@ -14,7 +13,6 @@ jobs:
     - image: lballabio/boost:latest
     steps:
     - checkout
-    - run: apt install cmake
     - run: mkdir cmake-build-release && cd cmake-build-release
     - run: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
     - run: cmake --build . --target eviscerator -- -j 4
@@ -23,7 +21,6 @@ jobs:
     - image: lballabio/boost:latest
     steps:
     - checkout
-    - run: apt install cmake
     - run: mkdir cmake-build-release && cd cmake-build-release
     - run: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
     - run: cmake --build . --target eviscerator -- -j 4
