@@ -5,7 +5,9 @@ jobs:
     - image: lballabio/boost:latest
     steps:
     - checkout
-    - run: mkdir cmake-build-debug && cd cmake-build-debug
+    - run:
+        name: Creating debug build directory
+        command: mkdir cmake-build-debug && cd cmake-build-debug
     - run: cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ..
     - run: cmake --build . --target eviscerator -- -j 4
   build-release:
