@@ -2,7 +2,7 @@ version: 2
 jobs:
   build-debug:
     docker:
-    - image: lballabio/boost:latest
+    - image: adamfgreen/cppbuild:latest
     steps:
     - checkout
     - run: apt install cmake
