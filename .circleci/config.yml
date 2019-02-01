@@ -30,16 +30,20 @@ jobs:
     - run: cd cmake-build-debug && zip -r -9 eviscerator-release.zip ./eviscerator-release/*
 workflows:
   version: 2
-  build:
-    jobs:
-      - build-debug
   build_and_deploy:
-    triggers:
-      schedule:
-        filters:
-          branches:
-            only:
-              - master
     jobs:
-      - build-release
-      - deploy
+      - build-debug:
+          filters:
+            branches:
+              ignore:
+                - master
+      - build-release:
+          filters:
+            branches:
+              only:
+                - master
+      - deploy:
+          filters:
+            branches:
+              only:
+              - master
