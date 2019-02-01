@@ -10,32 +10,36 @@ jobs:
     - run: cd cmake-build-debug && cmake --build . --target eviscerator -- -j 4
   build-release:
     docker:
-    - image: lballabio/boost:latest
+    - image: adamfgreen/cppbuild:latest
     steps:
     - checkout
-    - run: cd eviscerator
     - run: mkdir cmake-build-release && cd cmake-build-release
-    - run: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
-    - run: cmake --build . --target eviscerator -- -j 4
+    - run: cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
+    - run: cd cmake-build-debug && cmake --build . --target eviscerator -- -j 4
   deploy:
     docker:
-    - image: lballabio/boost:latest
+    - image: adamfgreen/cppbuild:latest
     steps:
     - checkout
-    - run: cd eviscerator
     - run: mkdir cmake-build-release && cd cmake-build-release
-    - run: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
-    - run: cmake --build . --target eviscerator -- -j 4
-    - run: mkdir eviscerator-release
-    - run: cp ./eviscerator eviscerator
-    - run: cp -r ./pddl ./eviscerator/pddl
-    - run: zip -r -9 eviscerator-release.zip ./eviscerator-release/*
+    - run: cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
+    - run: cd cmake-build-debug && cmake --build . --target eviscerator -- -j 4
+    - run: cd cmake-build-debug && mkdir eviscerator-release
+    - run: cd cmake-build-debug && cp ./eviscerator eviscerator-release
+    - run: cd cmake-build-debug && cp -r ./pddl ./eviscerator-release/pddl
+    - run: cd cmake-build-debug && zip -r -9 eviscerator-release.zip ./eviscerator-release/*
 workflows:
   version: 2
   build:
     jobs:
       - build-debug
   build_and_deploy:
+    triggers:
+      schedule:
+        filters:
+          branches:
+            only:
+              - master
     jobs:
       - build-release
       - deploy
