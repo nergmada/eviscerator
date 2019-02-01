@@ -5,10 +5,9 @@ jobs:
     - image: adamfgreen/cppbuild:latest
     steps:
     - checkout
-    - run: ls
-    - run: mkdir cmake-build-debug && cd cmake-build-debug
-    - run: cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ..
-    - run: cmake --build . --target eviscerator -- -j 4
+    - run: mkdir cmake-build-debug
+    - run: cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ..
+    - run: cd cmake-build-debug && cmake --build . --target eviscerator -- -j 4
   build-release:
     docker:
     - image: lballabio/boost:latest
