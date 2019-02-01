@@ -9,16 +9,12 @@ jobs:
     - run: cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ..
     - run: cd cmake-build-debug && cmake --build . --target eviscerator -- -j 4
   build-release:
-    docker:
-    - image: adamfgreen/cppbuild:latest
     steps:
     - checkout
     - run: mkdir cmake-build-release && cd cmake-build-release
     - run: cd cmake-build-release && cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
     - run: cd cmake-build-release && cmake --build . --target eviscerator -- -j 4
   deploy:
-    docker:
-    - image: adamfgreen/cppbuild:latest
     steps:
       - run: ls
 #    - checkout
