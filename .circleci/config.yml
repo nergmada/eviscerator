@@ -21,6 +21,7 @@ jobs:
     - image: lballabio/boost:latest
     steps:
     - checkout
+    - run: cd eviscerator
     - run: mkdir cmake-build-release && cd cmake-build-release
     - run: cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
     - run: cmake --build . --target eviscerator -- -j 4
