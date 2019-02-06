@@ -1,6 +1,6 @@
 (define
     (domain simple)
-    (:requirements :strips :durative-actions :durative-inequalities)
+    (:requirements :strips :durative-actions :duration-inequalities)
     (:predicates
         (object-is-ready ?a)
         (task-complete ?a)
