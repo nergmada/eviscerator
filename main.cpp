@@ -133,4 +133,5 @@ int main(int argc, char * argv[]) {
         ipc.testPlannerSupport(evisceratorResults);
     }
 
+    std::cout << std::endl << std::endl << "---[[Evisceration Done. Have a nice day]]---" << std::endl << std::endl;
 }

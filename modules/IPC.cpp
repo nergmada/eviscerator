@@ -92,7 +92,7 @@ int getMemoryUsage(int pid) {
     return -1;
 }
 
-void IPC::testPlannerSupport(TestResults &results, std::string year = "all") {
+void IPC::testPlannerSupport(TestResults &results, std::string year) {
     Ellipsis ellipsis(1000000, "Testing IPC instances");
     for (auto instance : instances) {
         if ((year == "all" || instance.year == year) && doesPlannerSupportProblem(instance, results)) execute(instance, results, ellipsis);
