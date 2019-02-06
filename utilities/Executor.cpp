@@ -97,6 +97,8 @@ int Executor::executeSilent(Ellipsis & e, bt::cpu_timer & timer, std::string dom
     }
 }
 
+
+
 std::string Executor::generateCommand(std::string domain, std::string problem) {
     return utilities::buildExecutionString(planner, command, appPath.string() + domain, appPath.string() + problem);
 }

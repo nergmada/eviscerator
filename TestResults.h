@@ -7,6 +7,7 @@
 
 #include <map>
 #include <boost/filesystem.hpp>
+#include <iostream>
 
 
 class TestResults {
@@ -85,6 +86,41 @@ public:
 
     status getIfFeatureSupported(test t) {
         return plannerResult[t];
+    }
+
+    status getIfFeatureSupported(std::string f) {
+        if (f == ":strips") return plannerResult[pddl12Strips];
+        else if (f == ":typing") return plannerResult[pddl12Typing];
+        else if (f == ":disjunctive-preconditions") return plannerResult[pddl12DisjunctivePreconditions];
+        else if (f == ":equality") return plannerResult[pddl12Equality];
+        else if (f == ":existential-preconditions") return plannerResult[pddl12ExistentialPreconditions];
+        else if (f == ":universal-preconditions") return plannerResult[pddl12UniversalPreconditions];
+        else if (f == ":conditional-effects") return plannerResult[pddl12ConditionalEffects];
+        else if (f == ":domain-axioms") return plannerResult[pddl12DomainAxioms];
+        else if (f == ":subgoals-through-axioms") return plannerResult[pddl12SubgoalsThroughAxioms];
+        else if (f == ":safety-constraints") return plannerResult[pddl12SafetyConstraints];
+        else if (f == ":open-world") return plannerResult[pddl12OpenWorld];
+        else if (f == ":quantified-preconditions") return plannerResult[pddl12QuantifiedPreconditions];
+        else if (f == ":adl") return plannerResult[pddl12ADL];
+        else if (f == ":ucpop") return plannerResult[pddl12UCPOP];
+        else if (f == ":numeric-fluents") return plannerResult[pddl21NumericFluents];
+        else if (f == ":fluents") {
+            std::cout << "Warning: assuming :fluents means :numeric-fluents" << std::endl;
+            return plannerResult[pddl21NumericFluents];
+        }
+        else if (f == ":durative-actions") return plannerResult[pddl21DurativeActions];
+        else if (f == ":durative-inequalities") return plannerResult[pddl21DurativeInequalities];
+        else if (f == ":continuous-effects") return plannerResult[pddl21ContinuousEffects];
+        else if (f == ":negative-preconditions") return plannerResult[pddl21NegativePreconditions];
+        else if (f == ":derived-predicates") return plannerResult[pddl22DerivedPredicates];
+        else if (f == ":timed-initial-literals") return plannerResult[pddl22TimedInitialLiterals];
+        else if (f == ":constraints") return plannerResult[pddl3Constraints];
+        else if (f == ":preferences") return plannerResult[pddl3Preferences];
+        else if (f == ":time") return plannerResult[pddlplusTime];
+        else {
+            std::cout << "Warning: Unrecognised requirement - " << f << " failing" << std::endl;
+            return failed;
+        }
     }
 
     int getPassCode() {

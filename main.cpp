@@ -14,6 +14,7 @@
 #include "modules/pddl3.h"
 #include "modules/pddlplus.h"
 #include "modules/PlannerQualities.h"
+#include "modules/IPC.h"
 
 namespace bfs = boost::filesystem;
 
@@ -121,5 +122,10 @@ int main(int argc, char * argv[]) {
 
     PlannerQualities plannerTester(executor, config.planRegex);
 
-    plannerTester.runNonCritical(evisceratorResults);
+    //plannerTester.runNonCritical(evisceratorResults);
+
+    std::cout << std::endl << std::endl << "---[[Performing coverage tests on IPC Domain]]---" << std::endl << std::endl;
+
+    //IPC ipc(config.planner, config.command, bfs::path(argv[0]).remove_filename());
+    //ipc.testPlannerSupport(evisceratorResults);
 }
