@@ -29,5 +29,14 @@ bool pddl3::runCritical(TestResults &results) {
 void pddl3::runNonCritical(TestResults &results) {
     testConstraints(results);
     testPreferences(results);
+    testActionCosts(results);
+    testGoalUtilities(results);
 }
 
+void pddl3::testActionCosts(TestResults &results) {
+    conductTest("action-costs", "Action Costs", TestResults::pddl3ActionCosts, results, 1);
+}
+
+void pddl3::testGoalUtilities(TestResults &results) {
+    conductTest("goal-utilities", "Goal Utilities", TestResults::pddl3GoalUtilities, results, 1);
+}

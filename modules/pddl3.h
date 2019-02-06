@@ -18,6 +18,8 @@ private:
     }
     void testConstraints(TestResults & results);
     void testPreferences(TestResults & results);
+    void testActionCosts(TestResults & results);
+    void testGoalUtilities(TestResults & results);
 public:
     pddl3(Executor & e, std::string & pr) : TestSuite(e, pr) {};
 
