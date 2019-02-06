@@ -118,6 +118,8 @@ public:
         else if (f == ":timed-initial-literals") return plannerResult[pddl22TimedInitialLiterals];
         else if (f == ":constraints") return plannerResult[pddl3Constraints];
         else if (f == ":preferences") return plannerResult[pddl3Preferences];
+        else if (f == ":action-costs") return plannerResult[pddl3ActionCosts];
+        else if (f == ":goal-utilities") return plannerResult[pddl3GoalUtilities];
         else if (f == ":time") return plannerResult[pddlplusTime];
         else {
             std::cout << "Warning: Unrecognised requirement - " << f << " failing" << std::endl;
