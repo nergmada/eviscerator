@@ -5,15 +5,13 @@
 #include "IPC.h"
 #include <boost/process.hpp>
 #include <boost/regex.hpp>
+#include <boost/timer/timer.hpp>
 
 #include "../utilities/functions.cpp"
 
 namespace bp = boost::process;
 namespace bfs = boost::filesystem;
-
-void IPC::execute(IPCInstance & instance) {
-    auto execution = utilities::buildExecutionString(planner, command, appPath.string() + instance.getDomainPath(), appPath.string() + instance.getInstancePath());
-}
+namespace bt = boost::timer;
 
 IPC::IPC(std::string &p, std::string &c, boost::filesystem::path &appDir) : planner(p), command(c), appPath(appDir) {
     //Create directory iterator for years directory
@@ -77,8 +75,45 @@ bool IPC::doesPlannerSupportProblem(IPC::IPCInstance &instance, TestResults &res
     return true;
 }
 
-void IPC::testPlannerSupport(TestResults &results) {
-    for (auto inst : instances) {
-        doesPlannerSupportProblem(inst, results);
+int getMemoryUsage(int pid) {
+
+    std::ifstream f("/proc/" + std::to_string(pid) + "/status");
+
+    std::string next;
+    while (f.good()) {
+        f >> next;
+        if (next == "VmPeak:") {
+            int toReturn;
+            f >> toReturn;
+            return toReturn;
+        }
     }
+
+    return -1;
+}
+
+void IPC::testPlannerSupport(TestResults &results, std::string year = "all") {
+    Ellipsis ellipsis(1000000, "Testing IPC instances");
+    for (auto instance : instances) {
+        if ((year == "all" || instance.year == year) && doesPlannerSupportProblem(instance, results)) execute(instance, results, ellipsis);
+    }
+    ellipsis.endEllipsis();
+}
+
+void IPC::execute(IPC::IPCInstance &instance, TestResults &results, Ellipsis & ellipsis) {
+    auto execution = utilities::buildExecutionString(planner, command, appPath.string() + instance.getDomainPath(), appPath.string() + instance.getInstancePath());
+    bp::child c(execution, bp::std_out > bp::null, bp::std_err > bp::null);
+    bt::cpu_timer timer;
+    timer.start();
+    int peakMemory = 0;
+    while (c.running()) {
+        int currentMemoryUsage = getMemoryUsage(c.id());
+        if (currentMemoryUsage > peakMemory) peakMemory = currentMemoryUsage;
+        ellipsis.updateEllipsis(timer.elapsed().wall);
+    }
+    timer.stop();
+    instance.memoryUsage = peakMemory;
+    instance.time = std::stod(bt::format(timer.elapsed(), 3, "%w"));
+    ellipsis.printAboveEllipsis("IPC-" + instance.year + " Problem: " + instance.problem + " Instance: " + std::to_string(instance.instance));
+    ellipsis.printAboveEllipsis("\tPeak Memory Usage: " + std::to_string(instance.memoryUsage) + "kB Time: " + std::to_string(instance.time) + "s");
 }

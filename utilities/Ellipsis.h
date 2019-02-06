@@ -18,6 +18,7 @@ private:
 public:
     explicit Ellipsis(double changeTime, std::string m = "Running");
     void updateEllipsis(double newTime);
+    void printAboveEllipsis(std::string out);
     void endEllipsis();
 };
 

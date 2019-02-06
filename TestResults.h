@@ -107,11 +107,11 @@ public:
         else if (f == ":ucpop") return plannerResult[pddl12UCPOP];
         else if (f == ":numeric-fluents") return plannerResult[pddl21NumericFluents];
         else if (f == ":fluents") {
-            std::cout << "Warning: assuming :fluents means :numeric-fluents" << std::endl;
             return plannerResult[pddl21NumericFluents];
         }
         else if (f == ":durative-actions") return plannerResult[pddl21DurativeActions];
         else if (f == ":durative-inequalities") return plannerResult[pddl21DurativeInequalities];
+        else if (f == ":duration-inequalities") return plannerResult[pddl21DurativeInequalities];
         else if (f == ":continuous-effects") return plannerResult[pddl21ContinuousEffects];
         else if (f == ":negative-preconditions") return plannerResult[pddl21NegativePreconditions];
         else if (f == ":derived-predicates") return plannerResult[pddl22DerivedPredicates];

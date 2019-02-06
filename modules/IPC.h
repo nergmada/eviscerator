@@ -7,6 +7,7 @@
 
 
 #include "../TestResults.h"
+#include "../utilities/Ellipsis.h"
 
 class IPC {
 private:
@@ -19,8 +20,8 @@ private:
         std::string year;
         std::string problem;
         int instance;
-        float time = 0;
-        float memoryUsage = 0;
+        double time = 0;
+        double memoryUsage = 0;
         std::string getDomainPath() { return "/pddl/ipc/" + year + "/" + problem + "/domain.pddl"; }
         std::string getInstancePath() { return "/pddl/ipc/" + year + "/" + problem + "/instances/instance-" + std::to_string(instance) + ".pddl"; }
     };
@@ -28,13 +29,11 @@ private:
     std::vector<IPCInstance> instances;
     std::map<std::string, std::vector<std::string>> problems;
 
-    void execute(IPCInstance & instance);
+    void execute(IPCInstance & instance, TestResults & results, Ellipsis & ellipsis);
 public:
     IPC(std::string & p, std::string & c, boost::filesystem::path &appDir);
 
-    void conductTests(TestResults & results);
-
-    void testPlannerSupport(TestResults & results);
+    void testPlannerSupport(TestResults & results, std::string year = "all");
 
     bool doesPlannerSupportProblem(IPCInstance & instance, TestResults & results);
 };
