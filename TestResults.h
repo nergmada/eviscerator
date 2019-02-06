@@ -41,6 +41,8 @@ public:
         pddl22TimedInitialLiterals,
         pddl3Constraints,
         pddl3Preferences,
+        pddl3ActionCosts,
+        pddl3GoalUtilities,
         pddlplusTime,
         plannerDeterminstic
     };
