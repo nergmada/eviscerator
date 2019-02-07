@@ -37,3 +37,22 @@ void Ellipsis::updateEllipsis(double newTime) {
 void Ellipsis::endEllipsis() {
     std::cout << std::endl;
 }
+
+void Ellipsis::printAboveEllipsis(std::string out) {
+    std::cout << "\r" << out << std::endl;
+    std::cout << "\r" << message;
+    switch (state) {
+        case 0:
+            std::cout << ".  ";
+            break;
+        case 1:
+            std::cout << ".. ";
+            break;
+        case 2:
+            std::cout << "...";
+            break;
+        default:
+            return;
+    }
+    std::cout << std::flush;
+}

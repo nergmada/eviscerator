@@ -8,7 +8,9 @@
 #include "boost/process.hpp"
 #include "boost/regex.hpp"
 
+
 namespace bp = boost::process;
+namespace bfs = boost::filesystem;
 namespace utilities {
     static std::string buildExecutionString(
             const std::string & planner,
@@ -63,6 +65,15 @@ namespace utilities {
     }
 
     static std::string getStringOutput(bp::ipstream & stream) {
+        std::string result;
+        std::string curLine;
+        while (stream && std::getline(stream, curLine)) {
+            result += curLine + '\n';
+        }
+        return result;
+    }
+
+    static std::string getStringOutput(std::ifstream stream) {
         std::string result;
         std::string curLine;
         while (stream && std::getline(stream, curLine)) {

@@ -14,6 +14,7 @@
 #include "modules/pddl3.h"
 #include "modules/pddlplus.h"
 #include "modules/PlannerQualities.h"
+#include "modules/IPC.h"
 
 namespace bfs = boost::filesystem;
 
@@ -22,6 +23,7 @@ struct evisceratorConfig {
     std::string planner;
     std::string command;
     std::string planRegex;
+    std::string ipcYear;
 };
 
 bool checkCommandStringIsValid(std::string command) {
@@ -35,7 +37,8 @@ evisceratorConfig getParameters(int argc, char * argv[]) {
     cmd.add_options()
             ("p,planner", "path to the planner to test", cxxopts::value<std::string>())
             ("c,command", "The command to execute in order to use the planner", cxxopts::value<std::string>()->default_value("[DOMAIN] [PROBLEM]"))
-            ("o,output", "A regular expression defining how the plan output is given", cxxopts::value<std::string>()->default_value("(\\d): (\\((?:action\\d+(?:\\sobj\\d+)*)\\))"));
+            ("o,output", "A regular expression defining how the plan output is given", cxxopts::value<std::string>()->default_value("(\\d): (\\((?:action\\d+(?:\\sobj\\d+)*)\\))"))
+            ("y,year", "The IPC year to conduct tests on, or enter all to run against all years", cxxopts::value<std::string>()->default_value("none"));
     cmd.parse_positional({"planner", "command"});
     auto result = cmd.parse(argc, argv);
 
@@ -58,7 +61,7 @@ evisceratorConfig getParameters(int argc, char * argv[]) {
     }
 
     config.planRegex = result["output"].as<std::string>();
-
+    config.ipcYear = result["year"].as<std::string>();
     return config;
 }
 
@@ -122,4 +125,13 @@ int main(int argc, char * argv[]) {
     PlannerQualities plannerTester(executor, config.planRegex);
 
     plannerTester.runNonCritical(evisceratorResults);
+
+    if (config.ipcYear != "none") {
+        std::cout << std::endl << std::endl << "---[[Performing coverage tests on IPC Domain]]---" << std::endl << std::endl;
+
+        IPC ipc(config.planner, config.command, bfs::path(argv[0]).remove_filename());
+        ipc.testPlannerSupport(evisceratorResults);
+    }
+
+    std::cout << std::endl << std::endl << "---[[Evisceration Done. Have a nice day]]---" << std::endl << std::endl;
 }
