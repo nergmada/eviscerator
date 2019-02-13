@@ -6,6 +6,7 @@
 #include "cxxopts.hpp"
 
 #include "utilities/Executor.h"
+#include "utilities/functions.cpp"
 #include "modules/existential.h"
 #include "modules/pddl12.h"
 #include "TestResults.h"
@@ -37,7 +38,7 @@ evisceratorConfig getParameters(int argc, char * argv[]) {
     cmd.add_options()
             ("p,planner", "path to the planner to test", cxxopts::value<std::string>())
             ("c,command", "The command to execute in order to use the planner", cxxopts::value<std::string>()->default_value("[DOMAIN] [PROBLEM]"))
-            ("o,output", "A regular expression defining how the plan output is given", cxxopts::value<std::string>()->default_value("(\\d): (\\((?:action\\d+(?:\\sobj\\d+)*)\\))"))
+            ("o,output", "A regular expression defining how the plan output is given", cxxopts::value<std::string>()->default_value("(\\d):\\s(\\((?:action\\d+(?:\\sobj\\d+)*)\\))"))
             ("y,year", "The IPC year to conduct tests on, or enter all to run against all years", cxxopts::value<std::string>()->default_value("none"));
     cmd.parse_positional({"planner", "command"});
     auto result = cmd.parse(argc, argv);
@@ -132,6 +133,10 @@ int main(int argc, char * argv[]) {
         IPC ipc(config.planner, config.command, bfs::path(argv[0]).remove_filename());
         ipc.testPlannerSupport(evisceratorResults);
     }
+
+    std::cout << std::endl;
+
+    utilities::printSupportMarkdown(evisceratorResults);
 
     std::cout << std::endl << std::endl << "---[[Evisceration Done. Have a nice day]]---" << std::endl << std::endl;
 }
