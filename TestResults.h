@@ -47,6 +47,9 @@ public:
         pddlplusTime,
         plannerDeterminstic
     };
+
+    const static test last = plannerDeterminstic;
+
     enum status {
         passed,
         failed,
@@ -124,6 +127,38 @@ public:
         else {
             std::cout << "Warning: Unrecognised requirement - " << f << " failing" << std::endl;
             return failed;
+        }
+    }
+
+    std::string getFeaturePDDLName(TestResults::test t) {
+        switch (t) {
+            case pddl12Strips: return ":strips";
+            case pddl12Typing: return ":typing";
+            case pddl12DisjunctivePreconditions: return ":disjunctive-preconditions";
+            case pddl12Equality: return ":equality";
+            case pddl12ExistentialPreconditions: return ":existential-preconditions";
+            case pddl12UniversalPreconditions: return ":universal-preconditions";
+            case pddl12ConditionalEffects: return ":conditional-effects";
+            case pddl12DomainAxioms: return ":domain-axioms";
+            case pddl12SubgoalsThroughAxioms: return ":subgoals-through-axioms";
+            case pddl12SafetyConstraints: return ":safety-constraints";
+            case pddl12OpenWorld: return ":open-world";
+            case pddl12QuantifiedPreconditions: return ":quantified-preconditions";
+            case pddl12ADL: return ":adl";
+            case pddl12UCPOP: return ":ucpop";
+            case pddl21NumericFluents: return ":numeric-fluents";
+            case pddl21DurativeActions: return ":durative-actions";
+            case pddl21DurativeInequalities: return ":duration-inequalities";
+            case pddl21ContinuousEffects: return ":continuous-effects";
+            case pddl21NegativePreconditions: return ":negative-preconditions";
+            case pddl22DerivedPredicates: return ":derived-predicates";
+            case pddl22TimedInitialLiterals: return ":timed-initial-literals";
+            case pddl3Constraints: return ":constraints";
+            case pddl3Preferences: return ":preferences";
+            case pddl3ActionCosts: return ":action-costs";
+            case pddl3GoalUtilities: return ":goal-utilities";
+            case pddlplusTime: return ":time";
+            default: return "";
         }
     }
 
