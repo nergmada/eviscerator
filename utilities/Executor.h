@@ -16,6 +16,8 @@ private:
     std::string planner;
     std::string command;
     boost::filesystem::path appPath;
+    bool timeout;
+    long timeoutTime = 10000000000;
 public:
     struct ExecutionProfile {
         Ellipsis & e;
@@ -25,7 +27,7 @@ public:
         boost::process::ipstream & out;
     };
 
-    Executor(std::string & p, std::string & c, boost::filesystem::path &appDir);
+    Executor(std::string & p, std::string & c, boost::filesystem::path &appDir, bool to = true);
 
     int execute(std::string comment);
 

@@ -17,6 +17,11 @@ bool TestSuite::conductTest(std::string feature, std::string stylisedName, TestR
     auto execResult = executor.execute(std::string("Testing how planner handles a ") + stylisedName + " problem", buildDomainName(feature), buildProblemName(feature), out);
     if (execResult == -1) {
         std::cout << "FAILED: Planner failed to run properly..." << std::endl;
+        return false;
+    }
+    if (execResult == -2) {
+        std::cout << "TIMEOUT: Planner was timed out on this test..." << std::endl;
+        return false;
     }
     std::cout << "Exit code when given " << stylisedName << " problem: " << execResult << std::endl;
 

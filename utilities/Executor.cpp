@@ -12,7 +12,7 @@
 namespace bp = boost::process;
 namespace bt = boost::timer;
 
-Executor::Executor(std::string & p, std::string &c, boost::filesystem::path &appDir) : planner(p), command(c), appPath(appDir) {}
+Executor::Executor(std::string & p, std::string &c, boost::filesystem::path &appDir, bool to) : planner(p), command(c), appPath(appDir), timeout(to) {}
 
 int Executor::execute(std::string comment) {
     auto execution = utilities::buildExecutionString(planner, command, "", "");
@@ -21,13 +21,17 @@ int Executor::execute(std::string comment) {
         bp::child c(execution, bp::std_out > bp::null, bp::std_err > bp::null);
         bt::cpu_timer timer;
         timer.start();
-
-        while (c.running()) {
+        while (c.running() && !(timeout && timer.elapsed().wall > timeoutTime)) {
             ellipsis.updateEllipsis(timer.elapsed().wall);
         }
         ellipsis.endEllipsis();
         timer.stop();
         std::cout << "\t" << bt::format(timer.elapsed(), 3, "%w seconds taken") << std::endl;
+        if (c.running()) {
+            std::cout << "Timeout reached, terminating test..." << std::endl;
+            c.terminate();
+            return -2;
+        }
         return c.exit_code();
     } catch (const std::exception& e) {
         return -1;
@@ -46,12 +50,17 @@ int Executor::execute(std::string comment, std::string domain, std::string probl
         bt::cpu_timer timer;
         timer.start();
 
-        while (c.running()) {
+        while (c.running() && !(timeout && timer.elapsed().wall > timeoutTime)) {
             ellipsis.updateEllipsis(timer.elapsed().wall);
         }
         ellipsis.endEllipsis();
         timer.stop();
         std::cout << "\t" << bt::format(timer.elapsed(), 3, "%w seconds taken") << std::endl;
+        if (c.running()) {
+            std::cout << "Timeout reached, terminating test..." << std::endl;
+            c.terminate();
+            return -2;
+        }
         return c.exit_code();
     } catch (const std::exception& e) {
         return -1;
@@ -71,12 +80,17 @@ int Executor::execute(std::string comment, std::string domain, std::string probl
         bt::cpu_timer timer;
         timer.start();
 
-        while (c.running()) {
+        while (c.running() && !(timeout && timer.elapsed().wall > timeoutTime)) {
             ellipsis.updateEllipsis(timer.elapsed().wall);
         }
         ellipsis.endEllipsis();
         timer.stop();
         std::cout << "\t" << bt::format(timer.elapsed(), 3, "%w seconds taken") << std::endl;
+        if (c.running()) {
+            std::cout << "Timeout reached, terminating test..." << std::endl;
+            c.terminate();
+            return -2;
+        }
         return c.exit_code();
     } catch (const std::exception& e) {
         return -1;
