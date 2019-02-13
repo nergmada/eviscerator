@@ -36,6 +36,7 @@ bool TestSuite::conductTest(std::string feature, std::string stylisedName, TestR
             std::cout << "Failed to identify plan... Ending Evisceration" << std::endl;
             std::cout << "More info: We use a simple solvable " << stylisedName << " problem to allow eviscerator to check that it understands how the planner outputs a plan" << std::endl;
             std::cout << "if we can't identify the plan in the output, then we cannot check that a problem has actually been solved and so may pass planners that should fail" << std::endl;
+            std::cout << "Command: " << executor.generateCommand(buildDomainName(feature), buildProblemName(feature)) << std::endl;
             return false;
         } else if (results.getPassCode() == execResult) {
             std::cout << "Failed to identify plan... Comparing exit code" << std::endl;
@@ -43,7 +44,7 @@ bool TestSuite::conductTest(std::string feature, std::string stylisedName, TestR
             std::cout << "MAYBE PASSED: Exit code corresponds to successful planning exit code, assuming success..." << std::endl;
         } else {
             results.addTestResult(t, execResult, TestResults::failed);
-            std::cout << "FAILED: Exit code does not correspond, could not plan a " << stylisedName << " problem" << std::endl;
+            std::cout << "FAILED: Exit code does not correspond or no plan found, could not plan a " << stylisedName << " problem" << std::endl;
             std::cout << "Command: " << executor.generateCommand(buildDomainName(feature), buildProblemName(feature)) << std::endl;
         }
     }

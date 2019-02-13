@@ -86,21 +86,20 @@ void pddl12::testOpenWorld(TestResults &results) {
 }
 
 void pddl12::checkQuantifiedPreconditionsSupport(TestResults &results) {
-    int desiredCode = results.getPassCode();
     std::cout << std::endl << "Testing super Requirement - Quantified Preconditions";
 
     bool passed = true;
     bool cannotConductFullTest = false;
-    int exitCode = desiredCode;
+    TestResults::status status = TestResults::passed;
     {
         std::cout << std::endl << "\t- Existential Preconditions supported: ";
         auto cond = results.getTestResult(TestResults::pddl12ExistentialPreconditions);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12ExistentialPreconditions) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                status = results.getIfFeatureSupported(TestResults::pddl12ExistentialPreconditions);
                 passed = false;
             }
         } else {
@@ -114,11 +113,12 @@ void pddl12::checkQuantifiedPreconditionsSupport(TestResults &results) {
         std::cout << std::endl << "\t- Universal Preconditions supported: ";
         auto cond = results.getTestResult(TestResults::pddl12UniversalPreconditions);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12UniversalPreconditions) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                if (status != TestResults::failed)
+                    status = results.getIfFeatureSupported(TestResults::pddl12UniversalPreconditions);
                 passed = false;
             }
         } else {
@@ -130,33 +130,32 @@ void pddl12::checkQuantifiedPreconditionsSupport(TestResults &results) {
 
     if (passed) {
         std::cout << std::endl << "PASSED: Planner supports quantified preconditions (super requirement)" << std::endl << std::endl;
-        results.addTestResult(TestResults::pddl12QuantifiedPreconditions, desiredCode, TestResults::passed);
+        results.addTestResult(TestResults::pddl12QuantifiedPreconditions, -1, TestResults::passed);
     } else {
         if (cannotConductFullTest) {
             std::cout << std::endl << "INCOMPLETE: Eviscerator could not confirm if Quantified Preconditions are supported because some pre-req tests have not been finished";
         } else {
             std::cout << std::endl << "FAILED: Quantified Preconditions are not supported";
-            results.addTestResult(TestResults::pddl12QuantifiedPreconditions, exitCode, TestResults::failed);
+            results.addTestResult(TestResults::pddl12QuantifiedPreconditions, -1, TestResults::failed);
         }
     }
 }
 
 void pddl12::checkADLSupport(TestResults &results) {
-    int desiredCode = results.getTestResult(TestResults::pddl12Strips).second;
     std::cout << std::endl << "Testing super Requirement - ADL";
 
     bool passed = true;
     bool cannotConductFullTest = false;
-    int exitCode = desiredCode;
+    TestResults::status status = TestResults::passed;
     {
         std::cout << std::endl << "\t- STRIPS supported: ";
         auto cond = results.getTestResult(TestResults::pddl12Strips);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12Strips) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                status = results.getIfFeatureSupported(TestResults::pddl12Strips);
                 passed = false;
             }
         } else {
@@ -167,13 +166,14 @@ void pddl12::checkADLSupport(TestResults &results) {
     }
     {
         std::cout << std::endl << "\t- Typing supported: ";
-        auto cond = results.getTestResult(TestResults::pddl12QuantifiedPreconditions);
+        auto cond = results.getTestResult(TestResults::pddl12Typing);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12Typing) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                if (status != TestResults::failed)
+                    status = results.getIfFeatureSupported(TestResults::pddl12Typing);
                 passed = false;
             }
         } else {
@@ -186,11 +186,12 @@ void pddl12::checkADLSupport(TestResults &results) {
         std::cout << std::endl << "\t- Disjunctive Preconditions supported: ";
         auto cond = results.getTestResult(TestResults::pddl12DisjunctivePreconditions);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12DisjunctivePreconditions) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                if (status != TestResults::failed)
+                    status = results.getIfFeatureSupported(TestResults::pddl12DisjunctivePreconditions);
                 passed = false;
             }
         } else {
@@ -203,11 +204,12 @@ void pddl12::checkADLSupport(TestResults &results) {
         std::cout << std::endl << "\t- Equality supported: ";
         auto cond = results.getTestResult(TestResults::pddl12Equality);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12Equality) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                if (status != TestResults::failed)
+                    status = results.getIfFeatureSupported(TestResults::pddl12Equality);
                 passed = false;
             }
         } else {
@@ -220,11 +222,12 @@ void pddl12::checkADLSupport(TestResults &results) {
         std::cout << std::endl << "\t- Quantified Preconditions supported: ";
         auto cond = results.getTestResult(TestResults::pddl12QuantifiedPreconditions);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12QuantifiedPreconditions) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                if (status != TestResults::failed)
+                    status = results.getIfFeatureSupported(TestResults::pddl12QuantifiedPreconditions);
                 passed = false;
             }
         } else {
@@ -237,11 +240,12 @@ void pddl12::checkADLSupport(TestResults &results) {
         std::cout << std::endl << "\t- Conditional Effects supported: ";
         auto cond = results.getTestResult(TestResults::pddl12ConditionalEffects);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12ConditionalEffects) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                if (status != TestResults::passed)
+                    status = results.getIfFeatureSupported(TestResults::pddl12ConditionalEffects);
                 passed = false;
             }
         } else {
@@ -253,33 +257,32 @@ void pddl12::checkADLSupport(TestResults &results) {
 
     if (passed) {
         std::cout << std::endl << "PASSED: Planner supports ADL (super requirement)" << std::endl << std::endl;
-        results.addTestResult(TestResults::pddl12ADL, desiredCode, TestResults::passed);
+        results.addTestResult(TestResults::pddl12ADL, -1, TestResults::passed);
     } else {
         if (cannotConductFullTest) {
             std::cout << std::endl << "INCOMPLETE: Eviscerator could not confirm if ADL is supported because some pre-req tests have not been finished";
         } else {
             std::cout << std::endl << "FAILED: ADL is not supported";
-            results.addTestResult(TestResults::pddl12ADL, exitCode, TestResults::failed);
+            results.addTestResult(TestResults::pddl12ADL, -1, TestResults::failed);
         }
     }
 }
 
 void pddl12::checkUCPOPSupport(TestResults &results) {
-    int desiredCode = results.getTestResult(TestResults::pddl12Strips).second;
     std::cout << std::endl << "Testing super Requirement - UCPOP";
 
     bool passed = true;
     bool cannotConductFullTest = false;
-    int exitCode = desiredCode;
+    TestResults::status status = TestResults::passed;
     {
         std::cout << std::endl << "\t- ADL supported: ";
         auto cond = results.getTestResult(TestResults::pddl12ADL);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12ADL) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                status = results.getIfFeatureSupported(TestResults::pddl12ADL);
                 passed = false;
             }
         } else {
@@ -292,11 +295,12 @@ void pddl12::checkUCPOPSupport(TestResults &results) {
         std::cout << std::endl << "\t- Domain Axioms supported: ";
         auto cond = results.getTestResult(TestResults::pddl12DomainAxioms);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12DomainAxioms) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                if (status != TestResults::failed)
+                    status = results.getIfFeatureSupported(TestResults::pddl12DomainAxioms);
                 passed = false;
             }
         } else {
@@ -309,11 +313,12 @@ void pddl12::checkUCPOPSupport(TestResults &results) {
         std::cout << std::endl << "\t- Safety Constraints supported: ";
         auto cond = results.getTestResult(TestResults::pddl12SafetyConstraints);
         if (cond.first) {
-            if (cond.second == desiredCode) {
+            if (results.getIfFeatureSupported(TestResults::pddl12SafetyConstraints) == TestResults::passed) {
                 std::cout << "TRUE";
             } else {
                 std::cout << "FALSE";
-                exitCode = cond.second;
+                if (status != TestResults::failed)
+                    status = results.getIfFeatureSupported(TestResults::pddl12SafetyConstraints);
                 passed = false;
             }
         } else {
@@ -324,13 +329,13 @@ void pddl12::checkUCPOPSupport(TestResults &results) {
     }
     if (passed) {
         std::cout << std::endl << "PASSED: Planner supports UCPOP (super requirement)" << std::endl << std::endl;
-        results.addTestResult(TestResults::pddl12UCPOP, desiredCode, TestResults::passed);
+        results.addTestResult(TestResults::pddl12UCPOP, -1, TestResults::passed);
     } else {
         if (cannotConductFullTest) {
             std::cout << std::endl << "INCOMPLETE: Eviscerator could not confirm if UCPOP is supported because some pre-req tests have not been finished";
         } else {
             std::cout << std::endl << "FAILED: UCPOP is not supported";
-            results.addTestResult(TestResults::pddl12UCPOP, exitCode, TestResults::failed);
+            results.addTestResult(TestResults::pddl12UCPOP, -1, TestResults::failed);
         }
     }
 }
