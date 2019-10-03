@@ -1,7 +1,7 @@
 # Eviscerator
 > A tool for getting to core of a planner's features and abilities
 
-For more info on what planning is, see [this guide](https://nergmada.github.io/pddl-reference)
+For more info on what planning is, see [The Planning Wiki](https://www.planning.wiki/)
 
 Eviscerator is a tool designed to test AI Planners that use PDDL as their modelling language. Eviscerator is a blunt
 instrument and not designed to test the intricate nature of what domains may or may not be supported. This tool tests 
