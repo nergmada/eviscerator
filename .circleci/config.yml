@@ -29,7 +29,6 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
-            VERSION=$(my-binary --version)
             ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt`" ./artifacts/eviscerator-release.zip
   publish-prerelease:
     docker:
@@ -40,7 +39,6 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
-            VERSION=$(my-binary --version)
             ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt` Prerelease" -prerelease ./artifacts/eviscerator-release.zip
 workflows:
   version: 2
