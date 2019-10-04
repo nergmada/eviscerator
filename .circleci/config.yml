@@ -7,6 +7,7 @@ jobs:
       - checkout
       - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
       - run: mkdir eviscerator-release
+      - run: ls
       - run: cp -r pddl/ ./eviscertor-release/pddl
       - run: cp ./build/release/eviscerator ./eviscerator-release
   build-release:
