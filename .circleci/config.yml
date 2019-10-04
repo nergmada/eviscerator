@@ -14,11 +14,13 @@ jobs:
       - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
       - run: mkdir artifacts/eviscerator-release
       - run: cp -r pddl/ ./artifacts/eviscerator-release
+      - run: cp version.txt ./artifacts
       - run: cp ./build/release/eviscerator ./artifacts/eviscerator-release
       - run: zip -r eviscerator-release.zip ./artifacts/eviscerator-release/
       - persist_to_workspace:
           root: ./artifacts
           paths:
+            - version.txt
             - eviscerator-release.zip
   publish-release:
     docker:
@@ -57,11 +59,15 @@ workflows:
                 - master
                 - prerelease
       - publish-release:
+          requires:
+            - build-release
           filters:
             branches:
               only:
                 - master
       - publish-prerelease:
+          requires:
+            - build-release
           filters:
             branches:
               only:
