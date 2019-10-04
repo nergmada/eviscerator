@@ -29,7 +29,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ./artifacts
-      - run: ls ./artifacts
       - run:
           name: "Publish Release on GitHub"
           command: |
@@ -40,7 +39,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ./artifacts
-      - run: ls ./artifacts
       - run:
           name: "Publish Release on GitHub"
           command: |
