@@ -2,34 +2,44 @@ version: 2
 jobs:
   build-debug:
     docker:
-    - image: adamfgreen/cppbuild:latest
+    - image: circleci/rust:latest
     steps:
       - checkout
-      - run: mkdir cmake-build-debug
-      - run: cd cmake-build-debug && cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ..
-      - run: cd cmake-build-debug && cmake --build . --target eviscerator -- -j 4
+      - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
+      - run: mkdir eviscerator-release
+      - run: cp -r pddl/ ./eviscertor-release/pddl
+      - run: cp ./build/release/eviscerator ./eviscerator-release
   build-release:
     docker:
-    - image: adamfgreen/cppbuild:latest
+    - image: circleci/rust:latest
     steps:
       - checkout
-      - run: mkdir cmake-build-release && cd cmake-build-release
-      - run: cd cmake-build-release && cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
-      - run: cd cmake-build-release && cmake --build . --target eviscerator -- -j 4
+      - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
+      - run: mkdir eviscerator-release
+      - run: cp -r pddl/ ./eviscertor-release/pddl
+      - run: cp ./build/release/eviscerator ./eviscerator-release
   deploy:
     docker:
-    - image: adamfgreen/cppbuild:latest
+    - image: circleci/rust:latest
     steps:
-      - run: ls
       - checkout
-      - run: mkdir cmake-build-release && cd cmake-build-release
-      - run: cd cmake-build-release && cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" ..
-      - run: cd cmake-build-release && cmake --build . --target eviscerator -- -j 4
-      - run: cd cmake-build-release && mkdir eviscerator-release
-      - run: cd cmake-build-release && cp ./eviscerator eviscerator-release
-      - run: cd cmake-build-release && cp -r ./pddl ./eviscerator-release/pddl
-      - run: cd cmake-build-release && zip -r -9 eviscerator-release.zip ./eviscerator-release/*
-      - run: github-release upload -o nergmada -r eviscerator -t `sh version.sh` -n `sh version.sh` -T ${GITHUB_TOKEN} -d -b "Pre-release" "cmake-build-release/eviscerator-release.zip"
+      - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
+      - run: mkdir eviscerator-release
+      - run: cp -r pddl/ ./eviscertor-release/pddl
+      - run: cp ./build/release/eviscerator ./eviscerator-release
+      - run: zip -r eviscerator-release.zip ./eviscerator-release/
+      - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt`" ./eviscerator-release.zip
+  deploy-prerelease:
+    docker:
+      - image: circleci/rust:latest
+    steps:
+      - checkout
+      - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
+      - run: mkdir eviscerator-release
+      - run: cp -r pddl/ ./eviscertor-release/pddl
+      - run: cp ./build/release/eviscerator ./eviscerator-release
+      - run: zip -r eviscerator-release.zip ./eviscerator-release/
+      - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt` Prerelease" -prerelease ./eviscerator-release.zip
 workflows:
   version: 2
   build_and_deploy:
@@ -48,4 +58,9 @@ workflows:
           filters:
             branches:
               only:
-              - master
+                - master
+      - deploy-prerelease:
+          filters:
+            branches:
+              only:
+                - prerelease
