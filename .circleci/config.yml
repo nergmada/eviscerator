@@ -58,12 +58,12 @@ workflows:
               only:
                 - master
                 - prerelease
-      - deploy:
+      - publish-release:
           filters:
             branches:
               only:
                 - master
-      - deploy-prerelease:
+      - publish-prerelease:
           filters:
             branches:
               only:
