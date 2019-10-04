@@ -12,6 +12,7 @@ jobs:
     steps:
       - checkout
       - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
+      - run: mkdir artifacts
       - run: mkdir artifacts/eviscerator-release
       - run: cp -r pddl/ ./artifacts/eviscerator-release
       - run: cp version.txt ./artifacts
