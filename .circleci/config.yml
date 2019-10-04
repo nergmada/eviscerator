@@ -5,11 +5,7 @@ jobs:
     - image: circleci/rust:latest
     steps:
       - checkout
-      - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
-      - run: mkdir eviscerator-release
-      - run: cp -r pddl/ ./eviscertor-release
-      - run: cp ./build/release/eviscerator ./eviscerator-release
-      - run: ls eviscerator-release
+      - run: cargo build -p eviscerator --bin eviscerator --target-dir ./build
   build-release:
     docker:
     - image: circleci/rust:latest
@@ -17,7 +13,7 @@ jobs:
       - checkout
       - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
       - run: mkdir eviscerator-release
-      - run: cp -r pddl/ ./eviscertor-release/pddl
+      - run: cp -r pddl/ ./eviscerator-release
       - run: cp ./build/release/eviscerator ./eviscerator-release
   deploy:
     docker:
@@ -26,7 +22,7 @@ jobs:
       - checkout
       - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
       - run: mkdir eviscerator-release
-      - run: cp -r pddl/ ./eviscertor-release/pddl
+      - run: cp -r pddl/ ./eviscerator-release
       - run: cp ./build/release/eviscerator ./eviscerator-release
       - run: zip -r eviscerator-release.zip ./eviscerator-release/
       - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt`" ./eviscerator-release.zip
@@ -37,10 +33,10 @@ jobs:
       - checkout
       - run: cargo build --release -p eviscerator --bin eviscerator --target-dir ./build
       - run: mkdir eviscerator-release
-      - run: cp -r pddl/ ./eviscertor-release/pddl
+      - run: cp -r pddl/ ./eviscerator-release
       - run: cp ./build/release/eviscerator ./eviscerator-release
       - run: zip -r eviscerator-release.zip ./eviscerator-release/
-      - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt` Prerelease" -prerelease ./eviscerator-release.zip
+      - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n -prerelease "`cat version.txt` Prerelease" ./eviscerator-release.zip
 workflows:
   version: 2
   build_and_deploy:
