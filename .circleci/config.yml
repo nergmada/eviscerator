@@ -33,7 +33,7 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
-            ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt`" ./artifacts/eviscerator-release.zip
+            ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat ./artifacts/version.txt`" ./artifacts/eviscerator-release.zip
   publish-prerelease:
     docker:
     - image: cibuilds/github:0.10
@@ -44,7 +44,7 @@ jobs:
       - run:
           name: "Publish Release on GitHub"
           command: |
-            ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt` Prerelease" -prerelease ./artifacts/eviscerator-release.zip
+            ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat ./artifacts/version.txt` Prerelease" -prerelease ./artifacts/eviscerator-release.zip
 workflows:
   version: 2
   build_and_deploy:
