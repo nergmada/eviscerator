@@ -22,26 +22,26 @@ jobs:
             - eviscerator-release.zip
   publish-release:
     docker:
-      - image: cibuilds/github:0.10
-      steps:
-        - attach_workspace:
-            at: ./artifacts
-        - run:
-            name: "Publish Release on GitHub"
-            command: |
-              VERSION=$(my-binary --version)
-              ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt`" ./artifacts/eviscerator-release.zip
+    - image: cibuilds/github:0.10
+    steps:
+      - attach_workspace:
+          at: ./artifacts
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            VERSION=$(my-binary --version)
+            ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt`" ./artifacts/eviscerator-release.zip
   publish-prerelease:
     docker:
-      - image: cibuilds/github:0.10
-      steps:
-        - attach_workspace:
-            at: ./artifacts
-        - run:
-            name: "Publish Release on GitHub"
-            command: |
-              VERSION=$(my-binary --version)
-              ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt` Prerelease" -prerelease ./artifacts/eviscerator-release.zip
+    - image: cibuilds/github:0.10
+    steps:
+      - attach_workspace:
+          at: ./artifacts
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            VERSION=$(my-binary --version)
+            ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt` Prerelease" -prerelease ./artifacts/eviscerator-release.zip
 workflows:
   version: 2
   build_and_deploy:
@@ -51,6 +51,7 @@ workflows:
             branches:
               ignore:
                 - master
+                - prerelease
       - build-release:
           filters:
             branches:
