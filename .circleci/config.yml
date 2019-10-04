@@ -25,7 +25,7 @@ jobs:
       - run: cp -r pddl/ ./eviscerator-release
       - run: cp ./build/release/eviscerator ./eviscerator-release
       - run: zip -r eviscerator-release.zip ./eviscerator-release/
-      - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt`" ./eviscerator-release.zip
+      - run: github-release upload -o nergmada -r eviscerator -t "`cat version.txt`" -n "`cat version.txt`" -T ${GITHUB_TOKEN} -d eviscerator-release.zip
   deploy-prerelease:
     docker:
       - image: circleci/rust:latest
@@ -36,7 +36,7 @@ jobs:
       - run: cp -r pddl/ ./eviscerator-release
       - run: cp ./build/release/eviscerator ./eviscerator-release
       - run: zip -r eviscerator-release.zip ./eviscerator-release/
-      - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n -prerelease "`cat version.txt` Prerelease" ./eviscerator-release.zip
+      - run: github-release upload -o nergmada -r eviscerator -t "`cat version.txt`" -n "`cat version.txt` Prerelease" -T ${GITHUB_TOKEN} -d -b "Pre-release" eviscerator-release.zip
 workflows:
   version: 2
   build_and_deploy:
