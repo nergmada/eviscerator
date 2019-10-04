@@ -1,6 +1,6 @@
 (define
     (domain simple)
-    (:requirements :strips :numeric-fluents)
+    (:requirements :strips :fluents)
     (:functions
         (fuel ?a)
     )
