@@ -17,7 +17,7 @@ jobs:
       - run: cp -r pddl/ ./artifacts/eviscerator-release
       - run: cp version.txt ./artifacts
       - run: cp ./build/release/eviscerator ./artifacts/eviscerator-release
-      - run: zip -r eviscerator-release.zip ./artifacts/eviscerator-release/
+      - run: zip -r ./artifacts/eviscerator-release.zip ./artifacts/eviscerator-release/
       - persist_to_workspace:
           root: ./artifacts
           paths:
