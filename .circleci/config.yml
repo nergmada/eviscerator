@@ -26,6 +26,7 @@ jobs:
       - run: cp ./build/release/eviscerator ./eviscerator-release
       - run: zip -r eviscerator-release.zip ./eviscerator-release/
       - run: wget https://raw.githubusercontent.com/ChrisPenner/tempered/master/tools/install-ghr.sh
+      - run: chmod +x install-ghr.sh
       - run: ./install-ghr.sh
       - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n "`cat version.txt`" ./eviscerator-release.zip
   deploy-prerelease:
@@ -39,6 +40,7 @@ jobs:
       - run: cp ./build/release/eviscerator ./eviscerator-release
       - run: zip -r eviscerator-release.zip ./eviscerator-release/
       - run: wget https://raw.githubusercontent.com/ChrisPenner/tempered/master/tools/install-ghr.sh
+      - run: chmod +x install-ghr.sh
       - run: ./install-ghr.sh
       - run: ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -t ${GITHUB_TOKEN} -n -prerelease "`cat version.txt` Prerelease" ./eviscerator-release.zip
 workflows:
