@@ -1,15 +1,18 @@
 (define
     (domain simple)
     (:requirements :strips :numeric-fluents)
+    (:types 
+        abc
+    )
     (:functions
-        (fuel ?a)
+        (fuel ?a - abc)
     )
     (:predicates
-        (object-is-ready ?a)
-        (task-complete ?a)
+        (object-is-ready ?a - abc)
+        (task-complete ?a - abc)
     )
     (:action action1
-        :parameters (?obj)
+        :parameters (?obj - abc)
         :precondition (and 
             (object-is-ready ?obj)
         )
