@@ -1,12 +1,15 @@
 (define
     (domain simple)
     (:requirements :strips :durative-actions)
+    (:types 
+        abc
+    )
     (:predicates
-        (object-is-ready ?a)
-        (task-complete ?a)
+        (object-is-ready ?a - abc)
+        (task-complete ?a - abc)
     )
     (:durative-action action1
-        :parameters (?obj)
+        :parameters (?obj - abc)
         :duration (>= ?duration 10)
         :condition (and 
             (at start (and 
